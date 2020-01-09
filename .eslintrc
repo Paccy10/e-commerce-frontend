@@ -1,0 +1,31 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "plugins": ["react"],
+  "rules": {
+    "prettier/prettier": "error",
+    "import/no-named-as-default": 0,
+    "import/prefer-default-export": 0,
+    "no-console": "warn",
+    "react/prop-types": 1,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "class-methods-use-this": 0,
+    "react/prefer-stateless-function": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.test.js", "**/*.spec.js", "**/setupTests.js"]
+      }
+    ]
+  }
+}
