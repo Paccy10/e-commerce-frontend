@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import App from '../App';
+import Aux from '../../hoc/Aux/Aux';
 
-describe('<App /> Component', () => {
+describe('<Aux /> Component', () => {
   it('should render without crashing', () => {
-    const component = shallow(<App />);
+    const component = shallow(<Aux />);
     expect(component).toMatchSnapshot();
   });
 });

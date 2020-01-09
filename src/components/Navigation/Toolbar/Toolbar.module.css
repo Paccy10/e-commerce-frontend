@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Serif&display=swap');
+
+.Toolbar {
+  background-color: #fff;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.Toolbar nav {
+  float: right;
+  font-family: 'IBM Plex Serif', serif;
+}
+
+.Toolbar .Clearfix {
+  clear: both;
+}
+
+@media (max-width: 768px) {
+  .MenuToggle {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    background-color: #6675df;
+    float: right;
+    cursor: pointer;
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+  }
+  .MenuToggle:before {
+    content: '\f0c9';
+    font-family: fontAwesome;
+    line-height: 40px;
+  }
+
+  .Open:before {
+    content: '\f00d';
+  }
+
+  .OpenMenu {
+    display: block;
+    width: 100%;
+  }
+
+  .OpenMenu ul {
+    display: block;
+  }
+
+  .CloseMenu {
+    display: none;
+  }
+}
