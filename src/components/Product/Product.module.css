@@ -1,0 +1,62 @@
+.Product {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  font-family: 'Roboto', sans-serif;
+  padding-bottom: 30px;
+}
+
+.Product img {
+  width: 100%;
+}
+
+.ProductDetails {
+  padding: 30px;
+}
+
+.ProductCategory {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ccc;
+  margin-bottom: 18px;
+}
+
+.ProductDetails h4 {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  color: #363636;
+  transition: 0.3s;
+}
+
+.ProductDetails p {
+  font-size: 15px;
+  line-height: 22px;
+  margin-bottom: 18px;
+  color: #999;
+}
+
+.ProductBottomDetails {
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+}
+
+.ProductPrice {
+  float: left;
+  padding: 6px 12px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ProductPrice span {
+  color: #999;
+}
+
+.ProductLink {
+  float: right;
+}
+
+.ProductLink button:hover {
+  background-color: #495057;
+}

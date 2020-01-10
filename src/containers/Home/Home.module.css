@@ -1,0 +1,194 @@
+.Main {
+  background-image: url('../../assets/img/undraw_successful_purchase_uyin.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 70vh;
+  background-color: #6675df;
+  z-index: -1;
+}
+
+.MainText {
+  overflow: auto;
+  position: relative;
+  left: 50%;
+  top: 10%;
+  color: #fff;
+  width: 40%;
+}
+
+.MainText h1 {
+  font-family: 'Poppins', sans-serif;
+  line-height: 69px;
+  letter-spacing: 0px;
+  font-size: 66px;
+  font-weight: 700;
+}
+
+.MainText button {
+  font-size: 20px;
+  margin-top: 20px;
+  background-color: #eb6475;
+  color: #fff;
+}
+
+.Products {
+  margin: 40px 40px 0;
+  align-items: center;
+}
+
+.Products h1 {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  line-height: 69px;
+  letter-spacing: 0px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #6675df;
+}
+
+.MoreProductsLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MoreProductsLink button {
+  margin-top: 30px;
+  background-color: #eb6475;
+}
+
+.MoreProductsLink button:hover {
+  background-color: #dc3545;
+}
+
+.Row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 40px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+  .Main {
+    background-size: 80vh;
+    height: 55vh;
+  }
+
+  .MainText h1 {
+    line-height: 60px;
+    font-size: 50px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .Main {
+    background-size: 50vh;
+    height: 35vh;
+  }
+
+  .MainText {
+    top: 10%;
+    right: 5%;
+  }
+
+  .MainText h1 {
+    line-height: 50px;
+    font-size: 40px;
+  }
+
+  .MainText button {
+    font-size: 15px;
+    margin-top: 15px;
+  }
+}
+
+@media screen and (max-width: 1024px) and (orientation: landscape) {
+  .Main {
+    background-size: 70vh;
+    height: 50vh;
+  }
+
+  .MainText {
+    top: 3%;
+    right: 5%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Main {
+    height: 30vh;
+    background-size: 43vh;
+  }
+
+  .MainText h1 {
+    line-height: 35px;
+    font-size: 30px;
+  }
+
+  .MainText {
+    top: 3%;
+  }
+
+  .MainText p {
+    font-size: 13px;
+  }
+
+  .MainText button {
+    font-size: 15px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .Main {
+    height: 30vh;
+    background-size: 0;
+  }
+
+  .MainText {
+    width: 80%;
+    text-align: center;
+    left: 10%;
+    top: 1%;
+  }
+
+  .MainText h1 {
+    line-height: 30px;
+    font-size: 25px;
+  }
+
+  .MainText p {
+    font-size: 11px;
+  }
+
+  .MainText button {
+    font-size: 13px;
+    margin-top: 2px;
+    padding: 3px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .Main {
+    height: 35vh;
+    background-size: 0;
+  }
+
+  .MainText button {
+    margin-top: 5px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .Main {
+    height: 37vh;
+    background-size: 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .Main {
+    height: 42vh;
+    background-size: 0;
+  }
+}
