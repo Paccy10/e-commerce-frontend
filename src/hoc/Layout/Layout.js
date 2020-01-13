@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Aux from '../Aux/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import Footer from '../../components/Footer/Footer';
+import classes from './Layout.module.css';
 
 class Layout extends Component {
   state = {
@@ -16,11 +17,14 @@ class Layout extends Component {
   render() {
     return (
       <Aux>
-        <Toolbar
-          toggleMenu={this.onToggleMenu}
-          showMenu={this.state.showMenu}
-        />
-        <main>{this.props.children}</main>
+        <div className={classes.Wrapper}>
+          <Toolbar
+            toggleMenu={this.onToggleMenu}
+            showMenu={this.state.showMenu}
+          />
+          <main>{this.props.children}</main>
+          <div className={classes.Push}></div>
+        </div>
         <Footer />
       </Aux>
     );
