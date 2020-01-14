@@ -1,13 +1,13 @@
+/* eslint-disable react/button-has-type */
 import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './Button.module.css';
 
 const Button = props => (
   <button
-    type="button"
     disabled={props.disabled}
     className={[classes.Button, classes[props.btnType]].join(' ')}
-    onClick={props.clicked}
+    onClick={props.onClick}
   >
     {props.children}
   </button>
@@ -16,7 +16,7 @@ const Button = props => (
 Button.propTypes = {
   disabled: PropTypes.bool,
   btnType: PropTypes.string.isRequired,
-  clicked: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   children: PropTypes.node.isRequired
 };
 

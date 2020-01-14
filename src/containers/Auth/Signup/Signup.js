@@ -1,11 +1,16 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Input from '../../../components/UI/Input/Input';
 import Button from '../../../components/UI/Button/Button';
 import classes from './Signup.module.css';
 import checkValidity from '../../../utils/checkValidity';
+import * as actions from '../../../store/actions';
 
-class Signup extends Component {
+export class Signup extends Component {
   state = {
     signupForm: {
       firstname: {
@@ -85,6 +90,21 @@ class Signup extends Component {
     formIsValid: false
   };
 
+  UNSAFE_componentWillReceiveProps(nextprops) {
+    if (nextprops.status === 'success') {
+      const updatedSignupForm = {
+        ...this.state.signupForm
+      };
+      for (const inputIdentifier in updatedSignupForm) {
+        updatedSignupForm[inputIdentifier].value = '';
+        updatedSignupForm[inputIdentifier].valid = false;
+        updatedSignupForm[inputIdentifier].touched = false;
+      }
+
+      this.setState({ signupForm: updatedSignupForm, formIsValid: false });
+    }
+  }
+
   inputChangeHandler = (event, inputName) => {
     const updatedSignupForm = {
       ...this.state.signupForm,
@@ -110,9 +130,27 @@ class Signup extends Component {
     this.setState({ signupForm: updatedSignupForm, formIsValid });
   };
 
+  formSubmitHandler = event => {
+    event.preventDefault();
+    const formData = {
+      firstname: this.state.signupForm.firstname.value,
+      lastname: this.state.signupForm.lastname.value,
+      email: this.state.signupForm.email.value,
+      password: this.state.signupForm.password.value
+    };
+    const { onSetAlert, onSignup } = this.props;
+    if (
+      this.state.signupForm.password.value !==
+      this.state.signupForm.confirmPassword.value
+    ) {
+      onSetAlert('Passwords do not match', 'Danger');
+    } else {
+      onSignup(formData);
+    }
+  };
+
   render() {
     const formElementsArray = [];
-
     for (const key in this.state.signupForm) {
       formElementsArray.push({
         id: key,
@@ -141,14 +179,13 @@ class Signup extends Component {
             <h1>CREATE ACCOUNT</h1>
           </div>
           <div className={classes.Form}>
-            <form>
+            <form onSubmit={this.formSubmitHandler}>
               {form}
               <Button
                 btnType="Primary"
-                disabled={!this.state.formIsValid}
-                clicked={() => {}}
+                disabled={!this.state.formIsValid || this.props.loading}
               >
-                Register
+                {this.props.loading ? 'Registering...' : 'Register'}
               </Button>
             </form>
             <div className={classes.LoginLink}>
@@ -161,4 +198,21 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+Signup.propTypes = {
+  onSetAlert: PropTypes.func,
+  onSignup: PropTypes.func.isRequired,
+  loading: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+  status: state.auth.status
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetAlert: (message, alertType) =>
+    dispatch(actions.setAlert(message, alertType)),
+  onSignup: formData => dispatch(actions.signup(formData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

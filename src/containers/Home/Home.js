@@ -34,7 +34,7 @@ class Home extends Component {
             })}
           </div>
           <div className={classes.MoreProductsLink}>
-            <Button btnType="Primary" clicked={() => {}}>
+            <Button btnType="Primary" onClick={() => {}}>
               More Products
             </Button>
           </div>

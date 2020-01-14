@@ -1,0 +1,30 @@
+.ActivateUser {
+  position: relative;
+  padding: 50px;
+}
+
+.Card {
+  position: relative;
+  overflow: auto;
+  width: 50%;
+  background-color: #fff;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  margin: auto;
+}
+
+.Title {
+  overflow: auto;
+  background-color: #6675df;
+}
+
+.Title h1 {
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  margin: 30px;
+}
+
+.Content {
+  padding: 10px 30px 30px;
+}

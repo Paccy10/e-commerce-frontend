@@ -22,7 +22,7 @@ const Product = () => {
             Price: <span>$230.99</span>
           </div>
           <div className={classes.ProductLink}>
-            <Button btnType="Primary" clicked={() => {}}>
+            <Button btnType="Primary" onClick={() => {}}>
               Add to Cart
             </Button>
           </div>

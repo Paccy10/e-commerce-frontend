@@ -100,11 +100,7 @@ class Login extends Component {
           <div className={classes.Form}>
             <form>
               {form}
-              <Button
-                btnType="Primary"
-                disabled={!this.state.formIsValid}
-                clicked={() => {}}
-              >
+              <Button btnType="Primary" disabled={!this.state.formIsValid}>
                 Login
               </Button>
             </form>

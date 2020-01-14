@@ -1,0 +1,60 @@
+.Alert {
+  position: fixed;
+  display: block;
+  z-index: 1;
+  margin: 1% auto;
+  text-align: center;
+  width: 100%;
+}
+
+.Content {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  animation-name: animatetop;
+  animation-duration: 0.8s;
+}
+
+.Close {
+  display: block;
+  text-align: right;
+  padding: 5px 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.Close:hover,
+.Close:focus {
+  color: #ced4da;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.Message {
+  padding: 0 15px 15px;
+}
+
+.Success {
+  background-color: #28a745;
+}
+
+.Danger {
+  background-color: #dc3545;
+}
+
+.Warning {
+  background-color: #ff9800;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
