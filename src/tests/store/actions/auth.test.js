@@ -122,4 +122,99 @@ describe('Auth actions', () => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
+
+  it('should login a user', () => {
+    const expectedAction = {
+      type: actionTypes.LOGIN_SUCCESS,
+      payload: {
+        status: 'success',
+        message: 'logged in',
+        token: 'token',
+        user: {}
+      }
+    };
+
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 200,
+        response: {
+          status: 'success',
+          message: 'logged in',
+          data: {
+            token: 'token',
+            user: {}
+          }
+        }
+      });
+    });
+
+    return store.dispatch(actions.login()).then(() => {
+      expect(store.getActions()[1]).toEqual(expectedAction);
+    });
+  });
+
+  it('should not login a user', () => {
+    const expectedAction = {
+      type: actionTypes.LOGIN_FAIL,
+      payload: {
+        status: 'error',
+        message: 'not logged in'
+      }
+    };
+
+    moxios.wait(() => {
+      const request = moxios.requests.mostRecent();
+      request.respondWith({
+        status: 400,
+        response: {
+          status: 'error',
+          message: 'not logged in'
+        }
+      });
+    });
+
+    return store.dispatch(actions.login()).then(() => {
+      expect(store.getActions()[1]).toEqual(expectedAction);
+    });
+  });
+
+  it('should auto-login the user', () => {
+    localStorage.setItem(
+      'expirationDate',
+      'Thu Jan 16 2020 09:22:34 GMT+0200 (Central Africa Time)'
+    );
+
+    store.dispatch(actions.authCheckState());
+    expect(store.getActions().length).toEqual(1);
+  });
+
+  it('should not auto-login the user', () => {
+    localStorage.setItem(
+      'expirationDate',
+      'Tue Jan 14 2020 09:22:34 GMT+0200 (Central Africa Time)'
+    );
+
+    store.dispatch(actions.authCheckState());
+    expect(store.getActions().length).toEqual(1);
+  });
+
+  it('should set the auth redirect link', () => {
+    const expectedAction = {
+      type: actionTypes.SET_AUTH_REDIRECT_PATH,
+      payload: {
+        path: '/products'
+      }
+    };
+
+    store.dispatch(actions.setAuthRedirectPath('/products'));
+    expect(store.getActions()[0]).toEqual(expectedAction);
+  });
+
+  it('should check the auth timeout', () => {
+    jest.useFakeTimers();
+    store.dispatch(actions.checkAuthTimeout(1));
+    jest.runAllTimers();
+    expect(store.getActions().length).toEqual(1);
+  });
 });

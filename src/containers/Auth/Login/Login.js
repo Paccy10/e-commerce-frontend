@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Input from '../../../components/UI/Input/Input';
 import Button from '../../../components/UI/Button/Button';
 import classes from './Login.module.css';
 import checkValidity from '../../../utils/checkValidity';
+import * as actions from '../../../store/actions';
 
-class Login extends Component {
+export class Login extends Component {
   state = {
     loginForm: {
       email: {
@@ -67,6 +70,17 @@ class Login extends Component {
     this.setState({ loginForm: updatedLoginForm, formIsValid });
   };
 
+  formSubmitHandler = event => {
+    event.preventDefault();
+
+    const formData = {
+      email: this.state.loginForm.email.value,
+      password: this.state.loginForm.password.value
+    };
+    const { onLogin } = this.props;
+    onLogin(formData);
+  };
+
   render() {
     const formElementsArray = [];
 
@@ -91,17 +105,27 @@ class Login extends Component {
         errorMessage={formElement.config.errorMessage}
       />
     ));
+
+    let authRedirect = null;
+    if (this.props.isAuthenticated) {
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
+    }
+
     return (
       <div className={classes.Login}>
+        {authRedirect}
         <div className={classes.Card}>
           <div className={classes.Title}>
             <h1>SIGNIN</h1>
           </div>
           <div className={classes.Form}>
-            <form>
+            <form onSubmit={this.formSubmitHandler}>
               {form}
-              <Button btnType="Primary" disabled={!this.state.formIsValid}>
-                Login
+              <Button
+                btnType="Primary"
+                disabled={!this.state.formIsValid || this.props.loading}
+              >
+                {this.props.loading ? 'Verifying...' : 'Login'}
               </Button>
             </form>
             <div className={classes.Links}>
@@ -119,4 +143,21 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
+  authRedirectPath: PropTypes.string
+};
+
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+  authRedirectPath: state.auth.authRedirectPath,
+  isAuthenticated: state.auth.token !== null
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLogin: FormData => dispatch(actions.login(FormData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

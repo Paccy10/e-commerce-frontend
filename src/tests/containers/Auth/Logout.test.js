@@ -2,41 +2,33 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import ConnectedLayout, { Layout } from '../../hoc/Layout/Layout';
+import ConnectedLogout, {
+  Logout
+} from '../../../containers/Auth/Logout/Logout';
 
 const mockStore = configureMockStore([thunk]);
 
 const props = {
-  children: <div></div>,
-  onTryAutoSignup: jest.fn()
+  onLogout: jest.fn()
 };
 
-describe('<Layout /> Component', () => {
-  const component = shallow(<Layout {...props} />);
-
+describe('<Logout /> Component', () => {
+  const component = shallow(<Logout {...props} />);
   let wrapper;
   let store;
 
   beforeEach(() => {
-    const initialState = {
-      auth: {
-        loading: false
-      }
-    };
+    const initialState = {};
     store = mockStore(initialState);
-    wrapper = shallow(<ConnectedLayout store={store} {...props} />).dive();
+    wrapper = shallow(<ConnectedLogout store={store} />).dive();
   });
 
   it('should render without crashing', () => {
     expect(component).toMatchSnapshot();
   });
 
-  it('should map state to props', () => {
-    expect(wrapper.props().isAuthenticated).toBe(true);
-  });
-
   it('should map dispatch to props', () => {
-    wrapper.simulate('tryAutoSignup');
+    wrapper.simulate('logout');
 
     const actions = store.getActions();
     expect(actions.length).toEqual(1);

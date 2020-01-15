@@ -3,3 +3,81 @@
   padding: 0;
   display: flex;
 }
+
+.Avatar {
+  list-style: none;
+}
+
+.Avatar img {
+  width: 40px;
+}
+
+.Avatar a {
+  display: block;
+  padding: 10px 20px;
+}
+
+.Avatar a:hover {
+  background-color: #fff;
+  color: #262626;
+}
+
+.Submenu {
+  display: none;
+  position: absolute;
+  right: 40px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* .Submenu ul li {
+  list-style: none;
+}
+
+.Submenu ul li a {
+  text-decoration: none;
+  color: #495057;
+}
+
+.Submenu ul li a i {
+  margin-right: 10px;
+}
+
+.Submenu ul li:hover {
+  background-color: #6675df;
+} */
+
+.Avatar:hover .Submenu {
+  display: block;
+  position: absolute;
+}
+
+.Avatar:hover .Submenu ul {
+  display: block;
+  padding: 0;
+}
+
+.Avatar:hover .Submenu ul li {
+  list-style: none;
+}
+
+.Avatar:hover .Submenu ul li a {
+  text-decoration: none;
+  color: #495057;
+}
+
+.Avatar:hover .Submenu ul li a i {
+  margin-right: 10px;
+}
+
+.Avatar:hover .Submenu ul li a:hover {
+  color: #fff;
+  background-color: #6675df;
+}
+
+.Username {
+  padding: 10px 20px;
+  background-color: #f7f7f7;
+  color: #9d9d9d;
+}

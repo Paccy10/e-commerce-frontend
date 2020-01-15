@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Input from '../../../components/UI/Input/Input';
@@ -172,8 +172,15 @@ export class Signup extends Component {
         errorMessage={formElement.config.errorMessage}
       />
     ));
+
+    let authRedirect = null;
+    if (this.props.isAuthenticated) {
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
+    }
+
     return (
       <div className={classes.Signup}>
+        {authRedirect}
         <div className={classes.Card}>
           <div className={classes.Title}>
             <h1>CREATE ACCOUNT</h1>
@@ -201,12 +208,16 @@ export class Signup extends Component {
 Signup.propTypes = {
   onSetAlert: PropTypes.func,
   onSignup: PropTypes.func.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
+  authRedirectPath: PropTypes.string
 };
 
 const mapStateToProps = state => ({
   loading: state.auth.loading,
-  status: state.auth.status
+  status: state.auth.status,
+  isAuthenticated: state.auth.token !== null,
+  authRedirectPath: state.auth.authRedirectPath
 });
 
 const mapDispatchToProps = dispatch => ({

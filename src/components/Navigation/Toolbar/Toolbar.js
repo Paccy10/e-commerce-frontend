@@ -17,7 +17,7 @@ const Toolbar = props => {
         onClick={props.toggleMenu}
       ></div>
       <nav className={props.showMenu ? classes.OpenMenu : classes.CloseMenu}>
-        <NavigationItems />
+        <NavigationItems isAuthenticated={props.isAuthenticated} />
       </nav>
       <div className={classes.Clearfix}></div>
     </header>
@@ -26,7 +26,8 @@ const Toolbar = props => {
 
 Toolbar.propTypes = {
   toggleMenu: PropTypes.func,
-  showMenu: PropTypes.bool
+  showMenu: PropTypes.bool,
+  isAuthenticated: PropTypes.bool
 };
 
 export default Toolbar;

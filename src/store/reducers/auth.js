@@ -6,7 +6,8 @@ const initialState = {
   message: null,
   token: null,
   user: null,
-  loading: false
+  loading: false,
+  authRedirectPath: '/'
 };
 
 export default function(state = initialState, action) {
@@ -24,11 +25,35 @@ export default function(state = initialState, action) {
     case actionTypes.SIGNUP_FAIL:
     case actionTypes.ACTIVATE_SUCCESS:
     case actionTypes.ACTIVATE_FAIL:
+    case actionTypes.LOGIN_FAIL:
       return updateObject(state, {
         status: payload.status,
         message: payload.message,
         loading: false
       });
+
+    case actionTypes.LOGIN_START:
+      return updateObject(state, {
+        ...initialState,
+        loading: true
+      });
+
+    case actionTypes.LOGIN_SUCCESS:
+      return updateObject(state, {
+        status: payload.status,
+        message: payload.message,
+        token: payload.token,
+        user: payload.user,
+        loading: false
+      });
+
+    case actionTypes.LOGOUT:
+      return updateObject(state, {
+        ...initialState
+      });
+
+    case actionTypes.SET_AUTH_REDIRECT_PATH:
+      return updateObject(state, { authRedirectPath: payload.path });
 
     default:
       return state;

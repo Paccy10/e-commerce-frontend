@@ -14,7 +14,7 @@ let props = {
 };
 
 describe('<Signup /> Component', () => {
-  const component = shallow(<Signup {...props} />);
+  let component = shallow(<Signup {...props} />);
   let wrapper;
   let store;
 
@@ -29,6 +29,12 @@ describe('<Signup /> Component', () => {
   });
 
   it('should render without crashing', () => {
+    expect(component).toMatchSnapshot();
+  });
+
+  it('should redirect when a user is authenticated', () => {
+    props.isAuthenticated = true;
+    component = shallow(<Signup {...props} />);
     expect(component).toMatchSnapshot();
   });
 

@@ -7,12 +7,13 @@ import Home from './containers/Home/Home';
 import Signup from './containers/Auth/Signup/Signup';
 import Login from './containers/Auth/Login/Login';
 import ActivateUser from './containers/Auth/ActivateUser/ActivateUser';
+import Logout from './containers/Auth/Logout/Logout';
 import store from './store';
 
 const REACT_APP_BACKEND_URL = 'http://localhost:5000/api/v1';
 axios.defaults.baseURL = REACT_APP_BACKEND_URL;
 
-class App extends Component {
+export class App extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -20,8 +21,9 @@ class App extends Component {
           <Layout>
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path="/register" exact component={Signup} />
-              <Route path="/login" exact component={Login} />
+              <Route path="/register" component={Signup} />
+              <Route path="/login" component={Login} />
+              <Route path="/logout" component={Logout} />
               <Route path="/activate-user/:token" component={ActivateUser} />
             </Switch>
           </Layout>
