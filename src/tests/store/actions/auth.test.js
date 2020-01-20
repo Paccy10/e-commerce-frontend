@@ -182,7 +182,7 @@ describe('Auth actions', () => {
   it('should auto-login the user', () => {
     localStorage.setItem(
       'expirationDate',
-      'Thu Jan 16 2020 09:22:34 GMT+0200 (Central Africa Time)'
+      'Fri May 01 2020 09:22:34 GMT+0200 (Central Africa Time)'
     );
 
     store.dispatch(actions.authCheckState());

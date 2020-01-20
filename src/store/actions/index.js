@@ -10,3 +10,5 @@ export {
   setAuthRedirectPath,
   checkAuthTimeout
 } from './auth';
+
+export { fetchBrands } from './brand';

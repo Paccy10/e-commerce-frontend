@@ -30,6 +30,7 @@ const Input = props => {
           {...props.elementConfig}
           value={props.value}
           onChange={props.onChange}
+          rows="7"
         />
       );
       break;

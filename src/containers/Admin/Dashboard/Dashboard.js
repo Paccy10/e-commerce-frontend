@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import Sidebar from '../../../components/Navigation/Sidebar/Sidebar';
-import Content from './Content/Content';
+import Layout from '../Layout/Layout';
 
 class Dashboard extends Component {
   render() {
     return (
-      <div>
-        <div>
-          <Sidebar />
-        </div>
-        <div>
-          <Content />
-        </div>
-      </div>
+      <Layout>
+        <div>Admin dashboard</div>
+      </Layout>
     );
   }
 }
