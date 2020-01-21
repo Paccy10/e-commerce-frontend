@@ -28,6 +28,24 @@ describe('Brand reducer', () => {
     expect(newSate).toEqual({ ...initialState, ...payload });
   });
 
+  it('should return new state if action type is FETCH_BRAND_SUCCESS', () => {
+    const payload = {
+      status: 'success',
+      message: 'brand fetched',
+      brand: {}
+    };
+    const newSate = brand(initialState, {
+      type: actionTypes.FETCH_BRAND_SUCCESS,
+      payload
+    });
+    expect(newSate).toEqual({
+      ...initialState,
+      status: payload.status,
+      message: payload.message,
+      brands: [payload.brand]
+    });
+  });
+
   it('should return new state if action type is FETCH_BRANDS_FAIL', () => {
     const payload = {
       status: 'error',

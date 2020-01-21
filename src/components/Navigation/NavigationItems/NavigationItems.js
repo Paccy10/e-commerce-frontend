@@ -26,8 +26,15 @@ const NavigationItems = props => {
             <img src={avatar} alt="User" />
           </Link>
           <div className={classes.Submenu}>
-            <div className={classes.Username}>Paccy</div>
+            <div className={classes.Username}>{props.username}</div>
             <ul>
+              {props.isAdmin ? (
+                <li>
+                  <Link to="/admin/dashboard">
+                    <i className="fas fa-user-shield"></i>Manage
+                  </Link>
+                </li>
+              ) : null}
               <li>
                 <Link to="#!">
                   <i className="fas fa-key"></i>Change Password
@@ -47,7 +54,9 @@ const NavigationItems = props => {
 };
 
 NavigationItems.propTypes = {
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  isAdmin: PropTypes.bool,
+  username: PropTypes.string
 };
 
 export default NavigationItems;

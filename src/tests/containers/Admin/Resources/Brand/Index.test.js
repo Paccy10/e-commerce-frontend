@@ -23,6 +23,9 @@ describe('<Index /> Component (Brand)', () => {
     const initialState = {
       brand: {
         brands: []
+      },
+      auth: {
+        token: 'token'
       }
     };
     store = mockStore(initialState);
@@ -43,14 +46,35 @@ describe('<Index /> Component (Brand)', () => {
     expect(onCreate).toHaveBeenCalled();
   });
 
+  it('should call onDelete method when the button is clicked', () => {
+    const onDelete = jest.spyOn(component.instance(), 'onDelete');
+    component.instance().forceUpdate();
+
+    const button = component.find('Button').at(2);
+    button.simulate('click');
+    expect(button.length).toBe(1);
+    expect(onDelete).toHaveBeenCalled();
+  });
+
+  it('should call onEdit method when the button is clicked', () => {
+    const onEdit = jest.spyOn(component.instance(), 'onEdit');
+    component.instance().forceUpdate();
+
+    const button = component.find('Button').at(1);
+    button.simulate('click');
+    expect(button.length).toBe(1);
+    expect(onEdit).toHaveBeenCalled();
+  });
+
   it('should map state to props', () => {
     expect(wrapper.props().brands).toEqual([]);
   });
 
   it('should map dispatch to props', () => {
     wrapper.simulate('fetchBrands');
+    wrapper.simulate('deleteBrand');
 
     const actions = store.getActions();
-    expect(actions.length).toEqual(1);
+    expect(actions.length).toEqual(2);
   });
 });

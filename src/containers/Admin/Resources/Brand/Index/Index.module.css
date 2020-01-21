@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Muli:900&display=swap');
 .Title {
   font-size: 25px;
-  color: #495057;
+  color: #5a5554;
   text-align: center;
   margin-bottom: 1.5rem;
 }
@@ -10,6 +10,7 @@
   background-color: #fff;
   padding: 10px;
   border: 1px solid #eaeaea;
+  color: #5a5554;
 }
 
 .Card table {
@@ -25,6 +26,10 @@ td {
   border-bottom: 1px solid #d3d3d3;
 }
 
+.Card table tbody td:nth-child(3) {
+  font-size: 14px;
+}
+
 .Card table tr:last-child td {
   border-bottom: none;
 }
@@ -32,4 +37,8 @@ td {
 .Card table button {
   padding: 5px 20px;
   font-size: 14px;
+}
+
+.Name {
+  font-weight: 700;
 }

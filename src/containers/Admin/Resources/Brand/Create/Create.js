@@ -1,11 +1,16 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Layout from '../../../Layout/Layout';
 import classes from './Create.module.css';
 import Button from '../../../../../components/UI/Button/Button';
 import Input from '../../../../../components/UI/Input/Input';
 import checkValidity from '../../../../../utils/checkValidity';
+import * as actions from '../../../../../store/actions';
 
-class Create extends Component {
+export class Create extends Component {
   state = {
     brandForm: {
       name: {
@@ -28,13 +33,19 @@ class Create extends Component {
         elementConfig: {},
         value: '',
         validation: {},
-        valid: false,
+        valid: true,
         touched: false,
         errorMessage: ''
       }
     },
     formIsValid: false
   };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.status === 'success') {
+      this.props.history.push('/admin/brands');
+    }
+  }
 
   inputChangeHandler = (event, inputName) => {
     const updatedBrandForm = {
@@ -59,6 +70,16 @@ class Create extends Component {
       formIsValid = updatedBrandForm[inputIdentifier].valid && formIsValid;
     }
     this.setState({ brandForm: updatedBrandForm, formIsValid });
+  };
+
+  formSubmitHandler = event => {
+    event.preventDefault();
+    const formData = {
+      name: this.state.brandForm.name.value,
+      description: this.state.brandForm.description.value
+    };
+    const { onCreateBrand, token } = this.props;
+    onCreateBrand(token, formData);
   };
 
   render() {
@@ -93,7 +114,12 @@ class Create extends Component {
         <div className={classes.Card}>
           <form onSubmit={this.formSubmitHandler}>
             {form}
-            <Button btnType="Primary">Create Brand</Button>
+            <Button
+              btnType="Primary"
+              disabled={!this.state.formIsValid || this.props.loading}
+            >
+              {this.props.loading ? 'Saving...' : 'Create Brand'}
+            </Button>
           </form>
         </div>
       </Layout>
@@ -101,4 +127,23 @@ class Create extends Component {
   }
 }
 
-export default Create;
+Create.propTypes = {
+  loading: PropTypes.bool,
+  token: PropTypes.string,
+  onCreateBrand: PropTypes.func,
+  history: PropTypes.object,
+  status: PropTypes.string
+};
+
+const mapStateToProps = state => ({
+  token: state.auth.token,
+  loading: state.brand.loading,
+  status: state.brand.status
+});
+
+const mapDispatchToProps = dispatch => ({
+  onCreateBrand: (formData, token) =>
+    dispatch(actions.createBrand(formData, token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create);

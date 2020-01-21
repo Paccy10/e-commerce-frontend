@@ -1,23 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import classes from './Sidebar.module.css';
+import NavigationItem from '../NavigationItems/NavigationItem/NavigationItem';
 
 const Sidebar = () => {
   return (
     <div className={classes.Sidebar}>
       <ul>
-        <li>
-          <Link to="/admin/brands">Brands</Link>
-        </li>
-        <li>
-          <Link to="/admin/categories">Categories</Link>
-        </li>
-        <li>
-          <Link to="/admin/products">Products</Link>
-        </li>
-        <li>
-          <Link to="/admin/users">Users</Link>
-        </li>
+        <NavigationItem link="/admin/dashboard">Dashboard</NavigationItem>
+        <NavigationItem link="/admin/brands">Brands</NavigationItem>
+        <NavigationItem link="/admin/categories">Categories</NavigationItem>
+        <NavigationItem link="/admin/products">Products</NavigationItem>
+        <NavigationItem link="/admin/users">Users</NavigationItem>
       </ul>
     </div>
   );

@@ -11,4 +11,10 @@ export {
   checkAuthTimeout
 } from './auth';
 
-export { fetchBrands } from './brand';
+export {
+  fetchBrands,
+  deleteBrand,
+  createBrand,
+  fetchBrand,
+  updateBrand
+} from './brand';

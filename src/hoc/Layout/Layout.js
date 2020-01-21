@@ -30,6 +30,8 @@ export class Layout extends Component {
             toggleMenu={this.onToggleMenu}
             showMenu={this.state.showMenu}
             isAuthenticated={this.props.isAuthenticated}
+            isAdmin={this.props.isAdmin}
+            username={this.props.username}
           />
           <main>{this.props.children}</main>
           <div className={classes.Push}></div>
@@ -43,11 +45,18 @@ export class Layout extends Component {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   isAuthenticated: PropTypes.bool,
-  onTryAutoSignup: PropTypes.func
+  isAdmin: PropTypes.bool,
+  onTryAutoSignup: PropTypes.func,
+  username: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.token !== null
+  isAuthenticated: state.auth.token !== null,
+  isAdmin: state.auth.user !== null ? state.auth.user.is_admin : false,
+  username:
+    state.auth.user !== null
+      ? `${state.auth.user.firstname} ${state.auth.user.lastname}`
+      : null
 });
 
 const mapDispatchToProps = dispatch => ({

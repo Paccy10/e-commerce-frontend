@@ -20,7 +20,8 @@ describe('<Layout /> Component', () => {
   beforeEach(() => {
     const initialState = {
       auth: {
-        loading: false
+        loading: false,
+        user: { is_admin: true }
       }
     };
     store = mockStore(initialState);

@@ -1,0 +1,21 @@
+.NotFound {
+  width: 40%;
+  height: 100px;
+  margin: auto;
+  text-align: center;
+  margin-top: 7%;
+}
+
+.NotFound div {
+  color: #6675df;
+  font-size: 150px;
+  font-weight: 700;
+}
+
+.NotFound button {
+  box-shadow: 0px 4px 15px -5px #0046d5;
+  border-radius: 40px;
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 10px 20px;
+}
