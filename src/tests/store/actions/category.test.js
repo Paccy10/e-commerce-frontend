@@ -8,11 +8,11 @@ const mockStore = configureMockStore([thunk]);
 const store = mockStore({
   status: null,
   message: null,
-  brands: [],
+  categories: [],
   loading: false
 });
 
-describe('Brand actions', () => {
+describe('Category actions', () => {
   beforeEach(() => {
     moxios.install();
     store.clearActions();
@@ -22,13 +22,13 @@ describe('Brand actions', () => {
     moxios.uninstall();
   });
 
-  it('should fetch all brands', () => {
+  it('should fetch all categories', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_BRANDS_SUCCESS,
+      type: actionTypes.FETCH_CATEGORIES_SUCCESS,
       payload: {
         status: 'success',
-        message: 'brands fetched',
-        brands: []
+        message: 'categories fetched',
+        categories: []
       }
     };
 
@@ -38,22 +38,22 @@ describe('Brand actions', () => {
         status: 200,
         response: {
           status: 'success',
-          message: 'brands fetched',
+          message: 'categories fetched',
           data: {
-            brands: []
+            categories: []
           }
         }
       });
     });
 
-    return store.dispatch(actions.fetchBrands()).then(() => {
+    return store.dispatch(actions.fetchCategories()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should not fetch brands', () => {
+  it('should not fetch categories', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_BRANDS_FAIL,
+      type: actionTypes.FETCH_CATEGORIES_FAIL,
       payload: {}
     };
 
@@ -65,17 +65,17 @@ describe('Brand actions', () => {
       });
     });
 
-    return store.dispatch(actions.fetchBrands()).then(() => {
+    return store.dispatch(actions.fetchCategories()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should delete a brand', () => {
+  it('should delete a category', () => {
     const expectedAction = {
-      type: actionTypes.DELETE_BRAND_SUCCESS,
+      type: actionTypes.DELETE_CATEGORY_SUCCESS,
       payload: {
         status: 'success',
-        message: 'brand deleted'
+        message: 'category deleted'
       }
     };
 
@@ -85,22 +85,22 @@ describe('Brand actions', () => {
         status: 200,
         response: {
           status: 'success',
-          message: 'brand deleted'
+          message: 'category deleted'
         }
       });
     });
 
-    return store.dispatch(actions.deleteBrand()).then(() => {
+    return store.dispatch(actions.deleteCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should not delete a brand', () => {
+  it('should not delete a category', () => {
     const expectedAction = {
-      type: actionTypes.DELETE_BRAND_FAIL,
+      type: actionTypes.DELETE_CATEGORY_FAIL,
       payload: {
         status: 'error',
-        message: 'brand not deleted'
+        message: 'category not deleted'
       }
     };
 
@@ -110,22 +110,22 @@ describe('Brand actions', () => {
         status: 400,
         response: {
           status: 'error',
-          message: 'brand not deleted'
+          message: 'category not deleted'
         }
       });
     });
 
-    return store.dispatch(actions.deleteBrand()).then(() => {
+    return store.dispatch(actions.deleteCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should create a brand', () => {
+  it('should create a category', () => {
     const expectedAction = {
-      type: actionTypes.CREATE_BRAND_SUCCESS,
+      type: actionTypes.CREATE_CATEGORY_SUCCESS,
       payload: {
         status: 'success',
-        message: 'brand created'
+        message: 'category created'
       }
     };
 
@@ -135,22 +135,22 @@ describe('Brand actions', () => {
         status: 201,
         response: {
           status: 'success',
-          message: 'brand created'
+          message: 'category created'
         }
       });
     });
 
-    return store.dispatch(actions.createBrand()).then(() => {
+    return store.dispatch(actions.createCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should not create a brand', () => {
+  it('should not create a category', () => {
     const expectedAction = {
-      type: actionTypes.CREATE_BRAND_FAIL,
+      type: actionTypes.CREATE_CATEGORY_FAIL,
       payload: {
         status: 'error',
-        message: 'brand not created'
+        message: 'category not created'
       }
     };
 
@@ -160,23 +160,23 @@ describe('Brand actions', () => {
         status: 400,
         response: {
           status: 'error',
-          message: 'brand not created'
+          message: 'category not created'
         }
       });
     });
 
-    return store.dispatch(actions.createBrand()).then(() => {
+    return store.dispatch(actions.createCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should fetch a brand', () => {
+  it('should fetch a category', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_BRAND_SUCCESS,
+      type: actionTypes.FETCH_CATEGORY_SUCCESS,
       payload: {
         status: 'success',
-        message: 'brand fetched',
-        brand: {}
+        message: 'category fetched',
+        category: {}
       }
     };
 
@@ -186,25 +186,25 @@ describe('Brand actions', () => {
         status: 200,
         response: {
           status: 'success',
-          message: 'brand fetched',
+          message: 'category fetched',
           data: {
-            brand: {}
+            category: {}
           }
         }
       });
     });
 
-    return store.dispatch(actions.fetchBrand()).then(() => {
+    return store.dispatch(actions.fetchCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should not fetch a brand', () => {
+  it('should not fetch a category', () => {
     const expectedAction = {
-      type: actionTypes.FETCH_BRAND_FAIL,
+      type: actionTypes.FETCH_CATEGORY_FAIL,
       payload: {
         status: 'error',
-        message: 'brand not fetched'
+        message: 'category not fetched'
       }
     };
 
@@ -214,22 +214,22 @@ describe('Brand actions', () => {
         status: 400,
         response: {
           status: 'error',
-          message: 'brand not fetched'
+          message: 'category not fetched'
         }
       });
     });
 
-    return store.dispatch(actions.fetchBrand()).then(() => {
+    return store.dispatch(actions.fetchCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should update a brand', () => {
+  it('should update a category', () => {
     const expectedAction = {
-      type: actionTypes.UPDATE_BRAND_SUCCESS,
+      type: actionTypes.UPDATE_CATEGORY_SUCCESS,
       payload: {
         status: 'success',
-        message: 'brand updated'
+        message: 'category updated'
       }
     };
 
@@ -239,22 +239,22 @@ describe('Brand actions', () => {
         status: 200,
         response: {
           status: 'success',
-          message: 'brand updated'
+          message: 'category updated'
         }
       });
     });
 
-    return store.dispatch(actions.updateBrand()).then(() => {
+    return store.dispatch(actions.updateCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });
 
-  it('should not update a brand', () => {
+  it('should not update a category', () => {
     const expectedAction = {
-      type: actionTypes.UPDATE_BRAND_FAIL,
+      type: actionTypes.UPDATE_CATEGORY_FAIL,
       payload: {
         status: 'success',
-        message: 'brand not updated'
+        message: 'category not updated'
       }
     };
 
@@ -264,12 +264,12 @@ describe('Brand actions', () => {
         status: 400,
         response: {
           status: 'success',
-          message: 'brand not updated'
+          message: 'category not updated'
         }
       });
     });
 
-    return store.dispatch(actions.updateBrand()).then(() => {
+    return store.dispatch(actions.updateCategory()).then(() => {
       expect(store.getActions()[1]).toEqual(expectedAction);
     });
   });

@@ -18,3 +18,11 @@ export {
   fetchBrand,
   updateBrand
 } from './brand';
+
+export {
+  fetchCategories,
+  deleteCategory,
+  fetchCategory,
+  createCategory,
+  updateCategory
+} from './category';

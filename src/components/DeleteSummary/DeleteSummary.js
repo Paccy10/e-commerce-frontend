@@ -12,7 +12,7 @@ const DeleteSummary = props => {
         <Button btnType="Danger" onClick={props.cancelHandler}>
           Cancel
         </Button>
-        <Button btnType="Primary" onClick={props.continueHandler}>
+        <Button btnType="Success" onClick={props.continueHandler}>
           Continue
         </Button>
       </div>

@@ -2,19 +2,33 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import ConnectedCreate, {
-  Create
-} from '../../../../../containers/Admin/Resources/Brand/Create/Create';
+import ConnectedEdit, {
+  Edit
+} from '../../../../../containers/Admin/Resources/Category/Edit/Edit';
 
 const mockStore = configureMockStore([thunk]);
 
 const props = {
-  onCreateBrand: jest.fn(),
-  history: { push: jest.fn() }
+  match: { params: { categoryId: 1 } },
+  onFetchCategory: () => {
+    return Promise.resolve({});
+  },
+  onUpdateCategory: () => {
+    return Promise.resolve({});
+  },
+  category: {
+    name: 'name',
+    description: 'description'
+  },
+  history: { push: jest.fn() },
+  onFetchCategories: () => {
+    return Promise.resolve({});
+  },
+  categories: [{ id: 1, name: 'name' }]
 };
 
-describe('<Create /> Component (Brand)', () => {
-  const component = shallow(<Create {...props} />);
+describe('<Edit /> Component (Category)', () => {
+  const component = shallow(<Edit {...props} />);
 
   let wrapper;
   let store;
@@ -24,12 +38,13 @@ describe('<Create /> Component (Brand)', () => {
       auth: {
         token: 'token'
       },
-      brand: {
-        message: 'created'
+      category: {
+        loading: false,
+        categories: []
       }
     };
     store = mockStore(initialState);
-    wrapper = shallow(<ConnectedCreate store={store} />).dive();
+    wrapper = shallow(<ConnectedEdit store={store} />).dive();
   });
 
   it('should render without crashing', () => {
@@ -46,6 +61,7 @@ describe('<Create /> Component (Brand)', () => {
     const event = {
       target: { value: 'name' }
     };
+    component.setState({ loading: false });
     const input = component.find('Input').at(0);
     input.simulate('change', event);
     expect(input.length).toBe(1);
@@ -60,7 +76,7 @@ describe('<Create /> Component (Brand)', () => {
     component.instance().forceUpdate();
 
     const event = { preventDefault: () => {} };
-
+    component.setState({ loading: false });
     const form = component.find('form');
     form.simulate('submit', event);
     expect(form.length).toBe(1);
@@ -68,20 +84,21 @@ describe('<Create /> Component (Brand)', () => {
   });
 
   it('should call componentWillReceiveProps', () => {
-    component.setProps({ message: 'Brand successfully created' });
+    component.setProps({ message: 'Category successfully updated' });
     expect(component.instance().props.message).toBe(
-      'Brand successfully created'
+      'Category successfully updated'
     );
   });
 
   it('should map state to props', () => {
-    expect(wrapper.props().message).toBe('created');
+    expect(wrapper.props().loading).toBe(false);
   });
 
   it('should map dispatch to props', () => {
-    wrapper.simulate('createBrand');
+    wrapper.simulate('fetchCategories');
+    wrapper.simulate('updateCategory');
 
     const actions = store.getActions();
-    expect(actions.length).toEqual(1);
+    expect(actions.length).toEqual(2);
   });
 });

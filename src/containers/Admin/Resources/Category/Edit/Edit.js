@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable radix */
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
@@ -13,7 +15,7 @@ import * as actions from '../../../../../store/actions';
 
 export class Edit extends Component {
   state = {
-    brandForm: {
+    categoryForm: {
       name: {
         elementType: 'input',
         label: 'Name',
@@ -37,6 +39,18 @@ export class Edit extends Component {
         valid: true,
         touched: false,
         errorMessage: ''
+      },
+      parentCategory: {
+        elementType: 'select',
+        label: 'Parent Category',
+        elementConfig: {
+          options: [{ displayValue: 'Select Category', value: '' }]
+        },
+        value: '',
+        validation: {},
+        valid: true,
+        touched: false,
+        errorMessage: ''
       }
     },
     formIsValid: false,
@@ -47,77 +61,100 @@ export class Edit extends Component {
     this.setState({ loading: true });
     const {
       match: { params },
-      onFetchBrand
+      onFetchCategories
     } = this.props;
-    onFetchBrand(params.brandId)
-      .then(() => {
-        const updatedBrandForm = {
-          ...this.state.brandForm
+    onFetchCategories().then(() => {
+      const updatedCategoryForm = {
+        ...this.state.categoryForm
+      };
+      const { categories } = this.props;
+      let editCategory;
+      for (let i = 0; i < categories.length; i++) {
+        if (categories[i].id === parseInt(params.categoryId)) {
+          editCategory = categories[i];
+        }
+      }
+
+      updatedCategoryForm.name.value = editCategory.name;
+      updatedCategoryForm.name.valid = true;
+      updatedCategoryForm.description.value = editCategory.description;
+      this.props.categories.map(category => {
+        const option = {
+          displayValue: category.name,
+          value: category.id
         };
-        updatedBrandForm.name.value = this.props.brand.name;
-        updatedBrandForm.name.valid = true;
-        updatedBrandForm.description.value = this.props.brand.description;
-        this.setState({
-          brandForm: updatedBrandForm,
-          formIsValid: true,
-          loading: false
-        });
-      })
-      .catch(() => {});
+        return this.state.categoryForm.parentCategory.elementConfig.options.push(
+          option
+        );
+      });
+      updatedCategoryForm.parentCategory.value = editCategory.parent_id
+        ? `${editCategory.parent_id}`
+        : '';
+      this.setState({
+        formIsValid: true,
+        loading: false
+      });
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.message === 'Brand successfully updated') {
-      this.props.history.push('/admin/brands');
+    if (nextProps.message === 'Category successfully updated') {
+      this.props.history.push('/admin/categories');
     }
   }
 
   inputChangeHandler = (event, inputName) => {
-    const updatedBrandForm = {
-      ...this.state.brandForm,
+    const updatedCategoryForm = {
+      ...this.state.categoryForm,
       [inputName]: {
-        ...this.state.brandForm[inputName],
+        ...this.state.categoryForm[inputName],
         value: event.target.value,
         valid: checkValidity(
           event.target.value,
-          this.state.brandForm[inputName].validation
+          this.state.categoryForm[inputName].validation
         ).isValid,
         touched: true,
         errorMessage: checkValidity(
           event.target.value,
-          this.state.brandForm[inputName].validation
+          this.state.categoryForm[inputName].validation
         ).message
       }
     };
 
     let formIsValid = true;
-    for (const inputIdentifier in updatedBrandForm) {
-      formIsValid = updatedBrandForm[inputIdentifier].valid && formIsValid;
+    for (const inputIdentifier in updatedCategoryForm) {
+      formIsValid = updatedCategoryForm[inputIdentifier].valid && formIsValid;
     }
-    this.setState({ brandForm: updatedBrandForm, formIsValid });
+    this.setState({ categoryForm: updatedCategoryForm, formIsValid });
   };
 
   formSubmitHandler = event => {
     event.preventDefault();
     const formData = {
-      name: this.state.brandForm.name.value,
-      description: this.state.brandForm.description.value
+      name: this.state.categoryForm.name.value,
+      description: this.state.categoryForm.description.value,
+      parent_id: this.state.categoryForm.parentCategory.value
     };
+
+    if (formData.parent_id === '') {
+      delete formData.parent_id;
+    }
+
     const {
-      onUpdateBrand,
+      onUpdateCategory,
       token,
       match: { params }
     } = this.props;
-    onUpdateBrand(token, params.brandId, formData);
+    onUpdateCategory(token, params.categoryId, formData);
   };
 
   render() {
     const formElementsArray = [];
 
-    for (const key in this.state.brandForm) {
+    for (const key in this.state.categoryForm) {
       formElementsArray.push({
         id: key,
-        config: this.state.brandForm[key]
+        config: this.state.categoryForm[key]
       });
     }
 
@@ -136,16 +173,16 @@ export class Edit extends Component {
       />
     ));
 
-    let brand = <Spinner />;
+    let category = <Spinner />;
     if (!this.state.loading) {
-      brand = (
+      category = (
         <form onSubmit={this.formSubmitHandler}>
           {form}
           <Button
             btnType="Primary"
             disabled={!this.state.formIsValid || this.props.loading}
           >
-            {this.props.loading ? 'Saving Changes...' : 'Update Brand'}
+            {this.props.loading ? 'Saving Changes...' : 'Update Category'}
           </Button>
         </form>
       );
@@ -154,9 +191,9 @@ export class Edit extends Component {
     return (
       <Layout>
         <div className={classes.Header}>
-          <h2 className={classes.Title}>Edit Brand</h2>
+          <h2 className={classes.Title}>Edit Category</h2>
         </div>
-        <div className={classes.Card}>{brand}</div>
+        <div className={classes.Card}>{category}</div>
       </Layout>
     );
   }
@@ -164,26 +201,26 @@ export class Edit extends Component {
 
 Edit.propTypes = {
   match: PropTypes.object,
-  onFetchBrand: PropTypes.func,
   loading: PropTypes.bool,
-  brand: PropTypes.object,
+  categories: PropTypes.array,
   token: PropTypes.string,
-  onUpdateBrand: PropTypes.func,
+  onUpdateCategory: PropTypes.func,
   history: PropTypes.object,
-  message: PropTypes.string
+  message: PropTypes.string,
+  onFetchCategories: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  loading: state.brand.loading,
-  brand: state.brand.brands[0],
-  message: state.brand.message,
-  token: state.auth.token
+  loading: state.category.loading,
+  message: state.category.message,
+  token: state.auth.token,
+  categories: state.category.categories
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchBrand: brandId => dispatch(actions.fetchBrand(brandId)),
-  onUpdateBrand: (token, brandId, FormData) =>
-    dispatch(actions.updateBrand(token, brandId, FormData))
+  onUpdateCategory: (token, categoryId, FormData) =>
+    dispatch(actions.updateCategory(token, categoryId, FormData)),
+  onFetchCategories: () => dispatch(actions.fetchCategories())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Edit);

@@ -36,3 +36,8 @@ button:disabled {
   background-color: #ff9800;
   color: #fff;
 }
+
+.Success {
+  background-color: #28a745;
+  color: #fff;
+}

@@ -4,28 +4,28 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import ConnectedIndex, {
   Index
-} from '../../../../../containers/Admin/Resources/Brand/Index/Index';
+} from '../../../../../containers/Admin/Resources/Category/Index/Index';
 
 const mockStore = configureMockStore([thunk]);
 
 const props = {
-  brands: [{ name: 'Nike', description: 'Nike is good' }],
-  onFetchBrands: jest.fn(),
+  categories: [{ name: 'Nike', description: 'Nike is good' }],
+  onFetchCategories: jest.fn(),
   history: { push: jest.fn() },
-  onDeleteBrand: () => {
+  onDeleteCategory: () => {
     return Promise.resolve({});
   }
 };
 
-describe('<Index /> Component (Brand)', () => {
+describe('<Index /> Component (Category)', () => {
   const component = shallow(<Index {...props} />);
   let wrapper;
   let store;
 
   beforeEach(() => {
     const initialState = {
-      brand: {
-        brands: []
+      category: {
+        categories: []
       },
       auth: {
         token: 'token'
@@ -78,19 +78,19 @@ describe('<Index /> Component (Brand)', () => {
 
   it('should call deleteContinueHandler method when the button is clicked', () => {
     const instance = component.instance();
-    component.setState({ brand: { id: 1 } });
+    component.setState({ category: { id: 1 } });
     instance.deleteContinueHandler();
 
     expect(component.state('deleting')).toBe(false);
   });
 
   it('should map state to props', () => {
-    expect(wrapper.props().brands).toEqual([]);
+    expect(wrapper.props().categories).toEqual([]);
   });
 
   it('should map dispatch to props', () => {
-    wrapper.simulate('fetchBrands');
-    wrapper.simulate('deleteBrand');
+    wrapper.simulate('fetchCategories');
+    wrapper.simulate('deleteCategory');
 
     const actions = store.getActions();
     expect(actions.length).toEqual(2);

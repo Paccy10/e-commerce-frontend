@@ -42,7 +42,7 @@ export class Create extends Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.status === 'success') {
+    if (nextProps.message === 'Brand successfully created') {
       this.props.history.push('/admin/brands');
     }
   }
@@ -132,13 +132,13 @@ Create.propTypes = {
   token: PropTypes.string,
   onCreateBrand: PropTypes.func,
   history: PropTypes.object,
-  status: PropTypes.string
+  message: PropTypes.string
 };
 
 const mapStateToProps = state => ({
   token: state.auth.token,
   loading: state.brand.loading,
-  status: state.brand.status
+  message: state.brand.message
 });
 
 const mapDispatchToProps = dispatch => ({

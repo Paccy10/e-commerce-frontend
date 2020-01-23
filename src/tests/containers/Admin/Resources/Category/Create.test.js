@@ -4,16 +4,20 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import ConnectedCreate, {
   Create
-} from '../../../../../containers/Admin/Resources/Brand/Create/Create';
+} from '../../../../../containers/Admin/Resources/Category/Create/Create';
 
 const mockStore = configureMockStore([thunk]);
 
 const props = {
-  onCreateBrand: jest.fn(),
-  history: { push: jest.fn() }
+  onCreateCategory: jest.fn(),
+  history: { push: jest.fn() },
+  onFetchCategories: () => {
+    return Promise.resolve({});
+  },
+  categories: [{ id: 1, name: 'name' }]
 };
 
-describe('<Create /> Component (Brand)', () => {
+describe('<Create /> Component (Category)', () => {
   const component = shallow(<Create {...props} />);
 
   let wrapper;
@@ -24,7 +28,7 @@ describe('<Create /> Component (Brand)', () => {
       auth: {
         token: 'token'
       },
-      brand: {
+      category: {
         message: 'created'
       }
     };
@@ -68,9 +72,9 @@ describe('<Create /> Component (Brand)', () => {
   });
 
   it('should call componentWillReceiveProps', () => {
-    component.setProps({ message: 'Brand successfully created' });
+    component.setProps({ message: 'Category successfully created' });
     expect(component.instance().props.message).toBe(
-      'Brand successfully created'
+      'Category successfully created'
     );
   });
 
@@ -79,9 +83,10 @@ describe('<Create /> Component (Brand)', () => {
   });
 
   it('should map dispatch to props', () => {
-    wrapper.simulate('createBrand');
+    wrapper.simulate('createCategory');
+    wrapper.simulate('fetchCategories');
 
     const actions = store.getActions();
-    expect(actions.length).toEqual(1);
+    expect(actions.length).toEqual(2);
   });
 });

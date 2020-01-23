@@ -32,6 +32,13 @@ describe('<Layout /> Component', () => {
     expect(component).toMatchSnapshot();
   });
 
+  it('should call onToggleMenu method when the button is clicked', () => {
+    const instance = component.instance();
+    instance.onToggleMenu();
+
+    expect(component.state('showMenu')).toBe(true);
+  });
+
   it('should map state to props', () => {
     expect(wrapper.props().isAuthenticated).toBe(true);
   });

@@ -19,7 +19,8 @@ const props = {
   brand: {
     name: 'name',
     description: 'description'
-  }
+  },
+  history: { push: jest.fn() }
 };
 
 describe('<Edit /> Component (Brand)', () => {
@@ -76,6 +77,13 @@ describe('<Edit /> Component (Brand)', () => {
     form.simulate('submit', event);
     expect(form.length).toBe(1);
     expect(formSubmitHandler).toHaveBeenCalled();
+  });
+
+  it('should call componentWillReceiveProps', () => {
+    component.setProps({ message: 'Brand successfully updated' });
+    expect(component.instance().props.message).toBe(
+      'Brand successfully updated'
+    );
   });
 
   it('should map state to props', () => {

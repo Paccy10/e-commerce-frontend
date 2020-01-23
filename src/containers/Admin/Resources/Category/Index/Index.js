@@ -14,63 +14,80 @@ import * as actions from '../../../../../store/actions';
 export class Index extends Component {
   state = {
     deleting: false,
-    brand: null
+    category: null
   };
 
   componentDidMount() {
-    this.props.onFetchBrands();
+    this.props.onFetchCategories();
   }
 
   onCreate = () => {
-    this.props.history.push('/admin/brands/create');
+    this.props.history.push('/admin/categories/create');
   };
 
-  onDelete = brand => {
-    this.setState({ deleting: true, brand });
+  onDelete = category => {
+    this.setState({ deleting: true, category });
   };
 
-  onEdit = brand => {
-    this.props.history.push(`/admin/brands/${brand.id}/edit`);
+  onEdit = category => {
+    this.props.history.push(`/admin/categories/${category.id}/edit`);
   };
 
   deleteCancelHandler = () => {
-    this.setState({ deleting: false, brand: null });
+    this.setState({ deleting: false, category: null });
   };
 
   deleteContinueHandler = () => {
-    this.props.onDeleteBrand(this.state.brand.id, this.props.token).then(() => {
-      this.setState({ deleting: false, brand: null });
-    });
+    this.props
+      .onDeleteCategory(this.state.category.id, this.props.token)
+      .then(() => {
+        this.setState({ deleting: false, category: null });
+      });
   };
 
   render() {
-    let brands = <Spinner />;
+    let categories = <Spinner />;
     if (!this.props.loading) {
-      brands = (
+      categories = (
         <table>
           <thead>
             <tr>
               <th>#</th>
               <th>Name</th>
               <th>Description</th>
+              <th>Parent Catgory</th>
               <th colSpan="2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {this.props.brands.map((brand, index) => (
+            {this.props.categories.map((category, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td className={classes.Name}>
-                  {brand.name.charAt(0).toUpperCase() + brand.name.substring(1)}
+                  {category.name.charAt(0).toUpperCase() +
+                    category.name.substring(1)}
                 </td>
-                <td>{brand.description}</td>
+                <td>{category.description ? category.description : '-'}</td>
                 <td>
-                  <Button btnType="Success" onClick={() => this.onEdit(brand)}>
+                  {category.parent_id
+                    ? this.props.categories.map(cat =>
+                        cat.id === category.parent_id ? cat.name : null
+                      )
+                    : '-'}
+                </td>
+                <td>
+                  <Button
+                    btnType="Success"
+                    onClick={() => this.onEdit(category)}
+                  >
                     Edit
                   </Button>
                 </td>
                 <td>
-                  <Button btnType="Danger" onClick={() => this.onDelete(brand)}>
+                  <Button
+                    btnType="Danger"
+                    onClick={() => this.onDelete(category)}
+                  >
                     Delete
                   </Button>
                 </td>
@@ -93,19 +110,19 @@ export class Index extends Component {
             {' '}
             Are you sure you want to delete{' '}
             <strong>
-              {this.state.brand.name.charAt(0).toUpperCase() +
-                this.state.brand.name.substring(1)}
+              {this.state.category.name.charAt(0).toUpperCase() +
+                this.state.category.name.substring(1)}
             </strong>{' '}
-            Brand?
+            Category?
           </p>
           <p>
-            <strong>ID: </strong> {this.state.brand.id}
+            <strong>ID: </strong> {this.state.category.id}
           </p>
           <p>
-            <strong>Name: </strong> {this.state.brand.name}
+            <strong>Name: </strong> {this.state.category.name}
           </p>
           <p>
-            <strong>Description: </strong> {this.state.brand.description}
+            <strong>Description: </strong> {this.state.category.description}
           </p>
         </DeleteSummary>
       );
@@ -125,11 +142,11 @@ export class Index extends Component {
           {deleteModal}
           <Button btnType="Primary" onClick={this.onCreate}>
             {' '}
-            <i className="fas fa-folder-plus"></i>Create new Brand
+            <i className="fas fa-folder-plus"></i>Create new Category
           </Button>
-          <h2 className={classes.Title}>Manage Brands</h2>
+          <h2 className={classes.Title}>Manage Categories</h2>
         </div>
-        <div className={classes.Card}>{brands}</div>
+        <div className={classes.Card}>{categories}</div>
       </Layout>
     );
   }
@@ -138,22 +155,22 @@ export class Index extends Component {
 Index.propTypes = {
   history: PropTypes.object,
   loading: PropTypes.bool,
-  onFetchBrands: PropTypes.func.isRequired,
-  brands: PropTypes.array,
-  onDeleteBrand: PropTypes.func,
+  onFetchCategories: PropTypes.func.isRequired,
+  categories: PropTypes.array,
+  onDeleteCategory: PropTypes.func,
   token: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-  loading: state.brand.loading,
-  brands: state.brand.brands,
+  loading: state.category.loading,
+  categories: state.category.categories,
   token: state.auth.token
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchBrands: () => dispatch(actions.fetchBrands()),
-  onDeleteBrand: (brandId, token) =>
-    dispatch(actions.deleteBrand(brandId, token))
+  onFetchCategories: () => dispatch(actions.fetchCategories()),
+  onDeleteCategory: (categoryId, token) =>
+    dispatch(actions.deleteCategory(categoryId, token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

@@ -4,16 +4,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Layout from '../../../Layout/Layout';
-import classes from './Edit.module.css';
+import classes from './Create.module.css';
 import Button from '../../../../../components/UI/Button/Button';
 import Input from '../../../../../components/UI/Input/Input';
-import Spinner from '../../../../../components/UI/Spinner/Spinner';
 import checkValidity from '../../../../../utils/checkValidity';
 import * as actions from '../../../../../store/actions';
+import Spinner from '../../../../../components/UI/Spinner/Spinner';
 
-export class Edit extends Component {
+export class Create extends Component {
   state = {
-    brandForm: {
+    categoryForm: {
       name: {
         elementType: 'input',
         label: 'Name',
@@ -37,6 +37,18 @@ export class Edit extends Component {
         valid: true,
         touched: false,
         errorMessage: ''
+      },
+      parentCategory: {
+        elementType: 'select',
+        label: 'Parent Category',
+        elementConfig: {
+          options: [{ displayValue: 'Select Category', value: '' }]
+        },
+        value: '',
+        validation: {},
+        valid: true,
+        touched: false,
+        errorMessage: ''
       }
     },
     formIsValid: false,
@@ -45,79 +57,73 @@ export class Edit extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    const {
-      match: { params },
-      onFetchBrand
-    } = this.props;
-    onFetchBrand(params.brandId)
-      .then(() => {
-        const updatedBrandForm = {
-          ...this.state.brandForm
+    this.props.onFetchCategories().then(() => {
+      this.props.categories.map(category => {
+        const option = {
+          displayValue: category.name,
+          value: category.id
         };
-        updatedBrandForm.name.value = this.props.brand.name;
-        updatedBrandForm.name.valid = true;
-        updatedBrandForm.description.value = this.props.brand.description;
-        this.setState({
-          brandForm: updatedBrandForm,
-          formIsValid: true,
-          loading: false
-        });
-      })
-      .catch(() => {});
+        return this.state.categoryForm.parentCategory.elementConfig.options.push(
+          option
+        );
+      });
+      this.setState({ loading: false });
+    });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.message === 'Brand successfully updated') {
-      this.props.history.push('/admin/brands');
+    if (nextProps.message === 'Category successfully created') {
+      this.props.history.push('/admin/categories');
     }
   }
 
   inputChangeHandler = (event, inputName) => {
-    const updatedBrandForm = {
-      ...this.state.brandForm,
+    const updatedCategoryForm = {
+      ...this.state.categoryForm,
       [inputName]: {
-        ...this.state.brandForm[inputName],
+        ...this.state.categoryForm[inputName],
         value: event.target.value,
         valid: checkValidity(
           event.target.value,
-          this.state.brandForm[inputName].validation
+          this.state.categoryForm[inputName].validation
         ).isValid,
         touched: true,
         errorMessage: checkValidity(
           event.target.value,
-          this.state.brandForm[inputName].validation
+          this.state.categoryForm[inputName].validation
         ).message
       }
     };
-
     let formIsValid = true;
-    for (const inputIdentifier in updatedBrandForm) {
-      formIsValid = updatedBrandForm[inputIdentifier].valid && formIsValid;
+    for (const inputIdentifier in updatedCategoryForm) {
+      formIsValid = updatedCategoryForm[inputIdentifier].valid && formIsValid;
     }
-    this.setState({ brandForm: updatedBrandForm, formIsValid });
+    this.setState({ categoryForm: updatedCategoryForm, formIsValid });
   };
 
   formSubmitHandler = event => {
     event.preventDefault();
     const formData = {
-      name: this.state.brandForm.name.value,
-      description: this.state.brandForm.description.value
+      name: this.state.categoryForm.name.value,
+      description: this.state.categoryForm.description.value,
+      parent_id: this.state.categoryForm.parentCategory.value
     };
-    const {
-      onUpdateBrand,
-      token,
-      match: { params }
-    } = this.props;
-    onUpdateBrand(token, params.brandId, formData);
+
+    if (formData.parent_id === '') {
+      delete formData.parent_id;
+    }
+
+    const { onCreateCategory, token } = this.props;
+    onCreateCategory(token, formData);
   };
 
   render() {
     const formElementsArray = [];
 
-    for (const key in this.state.brandForm) {
+    for (const key in this.state.categoryForm) {
       formElementsArray.push({
         id: key,
-        config: this.state.brandForm[key]
+        config: this.state.categoryForm[key]
       });
     }
 
@@ -136,16 +142,16 @@ export class Edit extends Component {
       />
     ));
 
-    let brand = <Spinner />;
+    let category = <Spinner />;
     if (!this.state.loading) {
-      brand = (
+      category = (
         <form onSubmit={this.formSubmitHandler}>
           {form}
           <Button
             btnType="Primary"
             disabled={!this.state.formIsValid || this.props.loading}
           >
-            {this.props.loading ? 'Saving Changes...' : 'Update Brand'}
+            {this.props.loading ? 'Saving...' : 'Create Category'}
           </Button>
         </form>
       );
@@ -154,36 +160,35 @@ export class Edit extends Component {
     return (
       <Layout>
         <div className={classes.Header}>
-          <h2 className={classes.Title}>Edit Brand</h2>
+          <h2 className={classes.Title}>Create New Category</h2>
         </div>
-        <div className={classes.Card}>{brand}</div>
+        <div className={classes.Card}>{category}</div>
       </Layout>
     );
   }
 }
 
-Edit.propTypes = {
-  match: PropTypes.object,
-  onFetchBrand: PropTypes.func,
+Create.propTypes = {
   loading: PropTypes.bool,
-  brand: PropTypes.object,
   token: PropTypes.string,
-  onUpdateBrand: PropTypes.func,
+  onCreateCategory: PropTypes.func,
   history: PropTypes.object,
+  onFetchCategories: PropTypes.func,
+  categories: PropTypes.array,
   message: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-  loading: state.brand.loading,
-  brand: state.brand.brands[0],
-  message: state.brand.message,
-  token: state.auth.token
+  token: state.auth.token,
+  loading: state.category.loading,
+  message: state.category.message,
+  categories: state.category.categories
 });
 
 const mapDispatchToProps = dispatch => ({
-  onFetchBrand: brandId => dispatch(actions.fetchBrand(brandId)),
-  onUpdateBrand: (token, brandId, FormData) =>
-    dispatch(actions.updateBrand(token, brandId, FormData))
+  onCreateCategory: (formData, token) =>
+    dispatch(actions.createCategory(formData, token)),
+  onFetchCategories: () => dispatch(actions.fetchCategories())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Edit);
+export default connect(mapStateToProps, mapDispatchToProps)(Create);

@@ -31,26 +31,10 @@
   font-size: 14px;
 }
 
-/* .Submenu ul li {
-  list-style: none;
-}
-
-.Submenu ul li a {
-  text-decoration: none;
-  color: #495057;
-}
-
-.Submenu ul li a i {
-  margin-right: 10px;
-}
-
-.Submenu ul li:hover {
-  background-color: #6675df;
-} */
-
 .Avatar:hover .Submenu {
   display: block;
   position: absolute;
+  z-index: 1;
 }
 
 .Avatar:hover .Submenu ul {
