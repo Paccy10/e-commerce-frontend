@@ -7,7 +7,6 @@ import Layout from '../../../Layout/Layout';
 import classes from './Index.module.css';
 import Button from '../../../../../components/UI/Button/Button';
 import Spinner from '../../../../../components/UI/Spinner/Spinner';
-import Modal from '../../../../../components/UI/Modal/Modal';
 import DeleteSummary from '../../../../../components/DeleteSummary/DeleteSummary';
 import * as actions from '../../../../../store/actions';
 
@@ -97,12 +96,13 @@ export class Index extends Component {
         </table>
       );
     }
-    let deleteModal = null;
+    let deleteSummary = null;
     if (this.state.deleting) {
-      const deleteSummary = this.props.loading ? (
+      deleteSummary = this.props.loading ? (
         <Spinner />
       ) : (
         <DeleteSummary
+          show={this.state.deleting}
           cancelHandler={this.deleteCancelHandler}
           continueHandler={this.deleteContinueHandler}
         >
@@ -115,31 +115,14 @@ export class Index extends Component {
             </strong>{' '}
             Category?
           </p>
-          <p>
-            <strong>ID: </strong> {this.state.category.id}
-          </p>
-          <p>
-            <strong>Name: </strong> {this.state.category.name}
-          </p>
-          <p>
-            <strong>Description: </strong> {this.state.category.description}
-          </p>
         </DeleteSummary>
-      );
-      deleteModal = (
-        <Modal
-          show={this.state.deleting}
-          modalClosed={this.deleteCancelHandler}
-        >
-          {deleteSummary}
-        </Modal>
       );
     }
 
     return (
       <Layout>
         <div className={classes.Header}>
-          {deleteModal}
+          {deleteSummary}
           <Button btnType="Primary" onClick={this.onCreate}>
             {' '}
             <i className="fas fa-folder-plus"></i>Create new Category

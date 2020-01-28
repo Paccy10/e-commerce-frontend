@@ -26,3 +26,13 @@ export {
   createCategory,
   updateCategory
 } from './category';
+
+export {
+  fetchProducts,
+  createProduct,
+  createProductStart,
+  fetchProduct,
+  deleteProduct,
+  updateProductStart,
+  updateProduct
+} from './product';

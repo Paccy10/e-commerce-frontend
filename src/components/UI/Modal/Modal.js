@@ -15,7 +15,7 @@ class Modal extends Component {
   render() {
     return (
       <Aux>
-        <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
+        <Backdrop show={this.props.show} />
         <div
           className={classes.Modal}
           style={{
@@ -31,8 +31,7 @@ class Modal extends Component {
 
 Modal.propTypes = {
   show: PropTypes.bool,
-  children: PropTypes.node,
-  modalClosed: PropTypes.func.isRequired
+  children: PropTypes.node
 };
 
 export default Modal;

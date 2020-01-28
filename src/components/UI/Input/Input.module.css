@@ -29,6 +29,12 @@
   box-sizing: border-box;
 }
 
+.Input select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 .InputElement:focus {
   outline: none;
   background-color: rgb(232, 240, 254);

@@ -7,7 +7,6 @@ import Layout from '../../../Layout/Layout';
 import classes from './Index.module.css';
 import Button from '../../../../../components/UI/Button/Button';
 import Spinner from '../../../../../components/UI/Spinner/Spinner';
-import Modal from '../../../../../components/UI/Modal/Modal';
 import DeleteSummary from '../../../../../components/DeleteSummary/DeleteSummary';
 import * as actions from '../../../../../store/actions';
 
@@ -60,9 +59,7 @@ export class Index extends Component {
             {this.props.brands.map((brand, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td className={classes.Name}>
-                  {brand.name.charAt(0).toUpperCase() + brand.name.substring(1)}
-                </td>
+                <td className={classes.Name}>{brand.name}</td>
                 <td>{brand.description}</td>
                 <td>
                   <Button btnType="Success" onClick={() => this.onEdit(brand)}>
@@ -80,14 +77,15 @@ export class Index extends Component {
         </table>
       );
     }
-    let deleteModal = null;
+    let deleteSummary = null;
     if (this.state.deleting) {
-      const deleteSummary = this.props.loading ? (
+      deleteSummary = this.props.loading ? (
         <Spinner />
       ) : (
         <DeleteSummary
           cancelHandler={this.deleteCancelHandler}
           continueHandler={this.deleteContinueHandler}
+          show={this.state.deleting}
         >
           <p>
             {' '}
@@ -98,31 +96,14 @@ export class Index extends Component {
             </strong>{' '}
             Brand?
           </p>
-          <p>
-            <strong>ID: </strong> {this.state.brand.id}
-          </p>
-          <p>
-            <strong>Name: </strong> {this.state.brand.name}
-          </p>
-          <p>
-            <strong>Description: </strong> {this.state.brand.description}
-          </p>
         </DeleteSummary>
-      );
-      deleteModal = (
-        <Modal
-          show={this.state.deleting}
-          modalClosed={this.deleteCancelHandler}
-        >
-          {deleteSummary}
-        </Modal>
       );
     }
 
     return (
       <Layout>
         <div className={classes.Header}>
-          {deleteModal}
+          {deleteSummary}
           <Button btnType="Primary" onClick={this.onCreate}>
             {' '}
             <i className="fas fa-folder-plus"></i>Create new Brand
