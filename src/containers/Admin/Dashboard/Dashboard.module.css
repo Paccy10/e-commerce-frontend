@@ -1,0 +1,10 @@
+.Card {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #eaeaea;
+  color: #5a5554;
+}
+
+.Card:nth-child(2) {
+  margin-top: 40px;
+}

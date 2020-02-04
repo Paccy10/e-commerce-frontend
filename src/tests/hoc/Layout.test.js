@@ -22,6 +22,9 @@ describe('<Layout /> Component', () => {
       auth: {
         loading: false,
         user: { is_admin: true }
+      },
+      cart: {
+        cart: { items: [] }
       }
     };
     store = mockStore(initialState);

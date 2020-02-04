@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable react/forbid-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,8 +15,8 @@ export class Layout extends Component {
     showMenu: false
   };
 
-  componentDidMount() {
-    this.props.onTryAutoSignup();
+  async componentDidMount() {
+    await this.props.onTryAutoSignup();
   }
 
   onToggleMenu = () => {
@@ -22,6 +24,13 @@ export class Layout extends Component {
   };
 
   render() {
+    if (this.props.isAuthenticated && !this.props.cart) {
+      this.props.onFetchCart(this.props.token);
+    }
+    let cartSize = 0;
+    if (this.props.cart) {
+      cartSize = this.props.cart.items.length;
+    }
     return (
       <Aux>
         <Alert />
@@ -32,6 +41,7 @@ export class Layout extends Component {
             isAuthenticated={this.props.isAuthenticated}
             isAdmin={this.props.isAdmin}
             username={this.props.username}
+            cartSize={cartSize}
           />
           <main>{this.props.children}</main>
           <div className={classes.Push}></div>
@@ -47,7 +57,10 @@ Layout.propTypes = {
   isAuthenticated: PropTypes.bool,
   isAdmin: PropTypes.bool,
   onTryAutoSignup: PropTypes.func,
-  username: PropTypes.string
+  username: PropTypes.string,
+  onFetchCart: PropTypes.func,
+  token: PropTypes.string,
+  cart: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -56,11 +69,14 @@ const mapStateToProps = state => ({
   username:
     state.auth.user !== null
       ? `${state.auth.user.firstname} ${state.auth.user.lastname}`
-      : null
+      : null,
+  token: state.auth.token,
+  cart: state.cart.cart
 });
 
 const mapDispatchToProps = dispatch => ({
-  onTryAutoSignup: () => dispatch(actions.authCheckState())
+  onTryAutoSignup: () => dispatch(actions.authCheckState()),
+  onFetchCart: token => dispatch(actions.fetchCart(token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

@@ -21,6 +21,7 @@ const Toolbar = props => {
           isAuthenticated={props.isAuthenticated}
           isAdmin={props.isAdmin}
           username={props.username}
+          cartSize={props.cartSize}
         />
       </nav>
       <div className={classes.Clearfix}></div>
@@ -33,7 +34,8 @@ Toolbar.propTypes = {
   showMenu: PropTypes.bool,
   isAuthenticated: PropTypes.bool,
   isAdmin: PropTypes.bool,
-  username: PropTypes.string
+  username: PropTypes.string,
+  cartSize: PropTypes.number
 };
 
 export default Toolbar;

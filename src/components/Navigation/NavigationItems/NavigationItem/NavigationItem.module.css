@@ -15,3 +15,18 @@ a:hover {
   background-color: #6675df;
   color: #fff;
 }
+
+.NavigationItem a span {
+  background-color: #6675df;
+  color: #fff;
+  padding: 2px 8px;
+  font-size: 12px;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.NavigationItem a.active span,
+a:hover span {
+  background-color: #fff;
+  color: #262626;
+}

@@ -8,7 +8,9 @@ export {
   logout,
   authCheckState,
   setAuthRedirectPath,
-  checkAuthTimeout
+  checkAuthTimeout,
+  requestResetLink,
+  resetPassword
 } from './auth';
 
 export {
@@ -36,3 +38,5 @@ export {
   updateProductStart,
   updateProduct
 } from './product';
+
+export { fetchCart, addItemToCart, removeItemFromCart } from './cart';

@@ -25,10 +25,6 @@ const Sidebar = () => {
           ></i>
           Products
         </NavigationItem>
-        <NavigationItem link="/admin/users">
-          <i className="fas fa-users" style={{ marginRight: '10px' }}></i>
-          Users
-        </NavigationItem>
       </ul>
     </div>
   );

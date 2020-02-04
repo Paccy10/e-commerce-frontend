@@ -172,3 +172,89 @@ export const setAuthRedirectPath = path => ({
   type: actionTypes.SET_AUTH_REDIRECT_PATH,
   payload: { path }
 });
+
+export const requestResetLinkStart = () => ({
+  type: actionTypes.REQUEST_RESET_LINK_START
+});
+
+export const requestResetLinkSuccess = (status, message) => ({
+  type: actionTypes.REQUEST_RESET_LINK_SUCCESS,
+  payload: {
+    status,
+    message
+  }
+});
+
+export const requestResetLinkFail = (status, message) => ({
+  type: actionTypes.REQUEST_RESET_LINK_FAIL,
+  payload: {
+    status,
+    message
+  }
+});
+
+export const requestResetLink = formData => {
+  return dispatch => {
+    dispatch(requestResetLinkStart());
+    return axios
+      .post('/auth/reset-password', formData)
+      .then(response => {
+        dispatch(
+          requestResetLinkSuccess(response.data.status, response.data.message)
+        );
+        dispatch(actions.setAlert(response.data.message, 'Success'));
+      })
+      .catch(error => {
+        dispatch(
+          requestResetLinkFail(
+            error.response.data.status,
+            error.response.data.message
+          )
+        );
+        dispatch(actions.setAlert(error.response.data.message, 'Danger'));
+      });
+  };
+};
+
+export const resetPasswordStart = () => ({
+  type: actionTypes.RESET_PASSWORD_START
+});
+
+export const resetPasswordSuccess = (status, message) => ({
+  type: actionTypes.RESET_PASSWORD_SUCCESS,
+  payload: {
+    status,
+    message
+  }
+});
+
+export const resetPasswordFail = (status, message) => ({
+  type: actionTypes.RESET_PASSWORD_FAIL,
+  payload: {
+    status,
+    message
+  }
+});
+
+export const resetPassword = (token, formData) => {
+  return dispatch => {
+    dispatch(resetPasswordStart());
+    return axios
+      .patch(`/auth/reset-password/${token}`, formData)
+      .then(response => {
+        dispatch(
+          resetPasswordSuccess(response.data.status, response.data.message)
+        );
+        dispatch(actions.setAlert(response.data.message, 'Success'));
+      })
+      .catch(error => {
+        dispatch(
+          resetPasswordFail(
+            error.response.data.status,
+            error.response.data.message
+          )
+        );
+        dispatch(actions.setAlert(error.response.data.message, 'Danger'));
+      });
+  };
+};

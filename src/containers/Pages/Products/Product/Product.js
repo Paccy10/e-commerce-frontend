@@ -5,17 +5,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Layout from '../../../Layout/Layout';
-import classes from './View.module.css';
-import Button from '../../../../../components/UI/Button/Button';
-import Spinner from '../../../../../components/UI/Spinner/Spinner';
-import DeleteSummary from '../../../../../components/DeleteSummary/DeleteSummary';
-import Aux from '../../../../../hoc/Aux/Aux';
-import * as actions from '../../../../../store/actions';
+import classes from './Product.module.css';
+import Button from '../../../../components/UI/Button/Button';
+import Spinner from '../../../../components/UI/Spinner/Spinner';
+import Aux from '../../../../hoc/Aux/Aux';
+import * as actions from '../../../../store/actions';
 
-class View extends Component {
+class Product extends Component {
   state = {
-    deleting: false
+    quantity: 1
   };
 
   async componentDidMount() {
@@ -27,6 +25,12 @@ class View extends Component {
     await this.props.onFetchCategory(this.props.product.category_id);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.message === 'Item successfully added to the cart') {
+      this.props.history.push('/cart');
+    }
+  }
+
   imgRef = React.createRef();
 
   onOpenImage = event => {
@@ -34,25 +38,31 @@ class View extends Component {
     mainImage.src = event.target.src;
   };
 
-  onDelete = () => {
-    this.setState({ deleting: true });
+  ongoBack = () => {
+    this.props.history.goBack();
   };
 
-  deleteCancelHandler = () => {
-    this.setState({ deleting: false });
+  onLogin = productId => {
+    this.props.onSetAuthRedirectPath(`products/${productId}`);
+    this.props.history.push('/login');
   };
 
-  deleteContinueHandler = () => {
-    this.props
-      .onDeleteProduct(this.props.match.params.productId, this.props.token)
-      .then(() => {
-        this.setState({ deleting: false });
-        this.props.history.push('/admin/products');
-      });
+  onAddQuantity = () => {
+    const quantity = this.state.quantity + 1;
+    this.setState({ quantity });
   };
 
-  onEdit = productId => {
-    this.props.history.push(`/admin/products/${productId}/edit`);
+  onRemoveQuantity = () => {
+    const quantity = this.state.quantity - 1;
+    this.setState({ quantity });
+  };
+
+  onAddProductToCart = () => {
+    const body = {
+      product_id: this.props.product.id,
+      quantity: this.state.quantity
+    };
+    this.props.onAddItemToCart(this.props.token, body);
   };
 
   render() {
@@ -113,60 +123,55 @@ class View extends Component {
             </p>
             <p>
               <strong>Quantity: </strong>
-              {this.props.product.quantity}
+              <Button
+                btnType="Primary"
+                disabled={this.state.quantity === 1}
+                onClick={this.onRemoveQuantity}
+              >
+                -
+              </Button>
+              <span>{this.state.quantity}</span>
+              <Button
+                btnType="Primary"
+                onClick={this.onAddQuantity}
+                disabled={this.state.quantity === this.props.product.quantity}
+              >
+                +
+              </Button>
             </p>
-            <Button btnType="Danger" onClick={this.onDelete}>
-              Delete
-            </Button>
-            <Button
-              btnType="Success"
-              onClick={() => this.onEdit(this.props.match.params.productId)}
-            >
-              Edit
+            {this.props.isAuthenticated ? (
+              <Button
+                btnType="Warning"
+                onClick={this.onAddProductToCart}
+                disabled={this.props.cartLoading}
+              >
+                {this.props.cartLoading ? 'Adding Product...' : 'Add To Cart'}
+              </Button>
+            ) : (
+              <Button
+                btnType="Warning"
+                onClick={() => this.onLogin(this.props.product.id)}
+              >
+                Login To Buy
+              </Button>
+            )}
+            <Button btnType="Success" onClick={this.ongoBack}>
+              Go Back
             </Button>
           </div>
         </Aux>
       );
     }
 
-    let deleteModal = null;
-    if (this.state.deleting) {
-      deleteModal = (
-        <DeleteSummary
-          show={this.state.deleting}
-          cancelHandler={this.deleteCancelHandler}
-          continueHandler={this.deleteContinueHandler}
-        >
-          {this.props.loading ? (
-            <Spinner />
-          ) : (
-            <p>
-              {' '}
-              Are you sure you want to delete{' '}
-              <strong>
-                {this.props.product
-                  ? this.props.product.name.charAt(0).toUpperCase() +
-                    this.props.product.name.substring(1)
-                  : null}
-              </strong>{' '}
-              Product?
-            </p>
-          )}
-        </DeleteSummary>
-      );
-    }
     return (
-      <Layout>
-        <div className={classes.Card}>
-          {deleteModal}
-          {product}
-        </div>
-      </Layout>
+      <div className={classes.Product}>
+        <div className={classes.Card}>{product}</div>
+      </div>
     );
   }
 }
 
-View.propTypes = {
+Product.propTypes = {
   loading: PropTypes.bool,
   onFetchProduct: PropTypes.func,
   match: PropTypes.object,
@@ -175,26 +180,32 @@ View.propTypes = {
   category: PropTypes.object,
   onFetchBrand: PropTypes.func,
   onFetchCategory: PropTypes.func,
-  onDeleteProduct: PropTypes.func,
   token: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
+  isAuthenticated: PropTypes.bool,
+  onSetAuthRedirectPath: PropTypes.func,
+  onAddItemToCart: PropTypes.func,
+  message: PropTypes.string,
+  cartLoading: PropTypes.bool
 };
 
 const mapSateToProps = state => ({
   loading: state.product.loading,
+  cartLoading: state.cart.loading,
   product: state.product.products[0],
   brands: state.brand.brands,
-  message: state.product.message,
+  message: state.cart.message,
   category: state.category.categories[0],
-  token: state.auth.token
+  token: state.auth.token,
+  isAuthenticated: state.auth.token !== null
 });
 
 const mapStateToDispatch = dispatch => ({
   onFetchProduct: productId => dispatch(actions.fetchProduct(productId)),
   onFetchBrand: brandId => dispatch(actions.fetchBrand(brandId)),
   onFetchCategory: categoryId => dispatch(actions.fetchCategory(categoryId)),
-  onDeleteProduct: (productId, token) =>
-    dispatch(actions.deleteProduct(productId, token))
+  onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
+  onAddItemToCart: (token, body) => dispatch(actions.addItemToCart(token, body))
 });
 
-export default connect(mapSateToProps, mapStateToDispatch)(View);
+export default connect(mapSateToProps, mapStateToDispatch)(Product);

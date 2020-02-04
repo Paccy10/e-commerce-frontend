@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable radix */
 /* eslint-disable camelcase */
 /* eslint-disable react/forbid-prop-types */
@@ -208,6 +209,9 @@ export class Create extends Component {
     formData.append('file', image);
     formData.append('upload_preset', 'arrows');
     formData.append('api_key', process.env.CLOUDINARY_API_KEY);
+    formData.append('timestamp', (Date.now() / 1000) | 0);
+
+    delete axios.defaults.headers.common.Authorization;
 
     return axios
       .post(
@@ -232,6 +236,9 @@ export class Create extends Component {
       formData.append('file', image);
       formData.append('upload_preset', 'arrows');
       formData.append('api_key', process.env.CLOUDINARY_API_KEY);
+      formData.append('timestamp', (Date.now() / 1000) | 0);
+
+      delete axios.defaults.headers.common.Authorization;
 
       return axios
         .post(

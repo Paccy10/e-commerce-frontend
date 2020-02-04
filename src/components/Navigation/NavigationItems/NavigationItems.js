@@ -13,41 +13,40 @@ const NavigationItems = props => {
         Home
       </NavigationItem>
       <NavigationItem link="/products">Products</NavigationItem>
-      <NavigationItem link="/categories">Categories</NavigationItem>
-      <NavigationItem link="/brands">Brands</NavigationItem>
       {!props.isAuthenticated ? (
         <Aux>
           <NavigationItem link="/login">Login</NavigationItem>
           <NavigationItem link="/register">Signup</NavigationItem>
         </Aux>
       ) : (
-        <li className={classes.Avatar}>
-          <Link to="/#!">
-            <img src={avatar} alt="User" />
-          </Link>
-          <div className={classes.Submenu}>
-            <div className={classes.Username}>{props.username}</div>
-            <ul>
-              {props.isAdmin ? (
+        <Aux>
+          <NavigationItem link="/cart">
+            Cart
+            <span>{props.cartSize}</span>
+          </NavigationItem>
+          <li className={classes.Avatar}>
+            <Link to="/#!">
+              <img src={avatar} alt="User" />
+            </Link>
+            <div className={classes.Submenu}>
+              <div className={classes.Username}>{props.username}</div>
+              <ul>
+                {props.isAdmin ? (
+                  <li>
+                    <Link to="/admin/dashboard">
+                      <i className="fas fa-user-shield"></i>Manage
+                    </Link>
+                  </li>
+                ) : null}
                 <li>
-                  <Link to="/admin/dashboard">
-                    <i className="fas fa-user-shield"></i>Manage
+                  <Link to="/logout">
+                    <i className="fas fa-sign-out-alt"></i>Logout
                   </Link>
                 </li>
-              ) : null}
-              <li>
-                <Link to="#!">
-                  <i className="fas fa-key"></i>Change Password
-                </Link>
-              </li>
-              <li>
-                <Link to="/logout">
-                  <i className="fas fa-sign-out-alt"></i>Logout
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </li>
+              </ul>
+            </div>
+          </li>
+        </Aux>
       )}
     </ul>
   );
@@ -56,7 +55,8 @@ const NavigationItems = props => {
 NavigationItems.propTypes = {
   isAuthenticated: PropTypes.bool,
   isAdmin: PropTypes.bool,
-  username: PropTypes.string
+  username: PropTypes.string,
+  cartSize: PropTypes.number
 };
 
 export default NavigationItems;

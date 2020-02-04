@@ -1,0 +1,41 @@
+.Cart {
+  height: 100vh;
+  background-color: rgb(242, 242, 242);
+  overflow: auto;
+  padding: 40px 80px;
+  color: #5a5554;
+}
+
+.Cart h1 {
+  text-align: center;
+}
+
+.Cart button {
+  outline: none;
+}
+
+.EmptyCart {
+  width: 40%;
+  margin: auto;
+  text-align: center;
+  margin-top: 7%;
+}
+
+.EmptyCart div {
+  color: #6675df;
+  font-size: 150px;
+  font-weight: 700;
+}
+
+.EmptyCart p {
+  font-size: 20px;
+}
+
+.EmptyCart button {
+  box-shadow: 0px 4px 15px -5px #0046d5;
+  border-radius: 40px;
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 10px 20px;
+  outline: none;
+}

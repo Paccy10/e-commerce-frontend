@@ -1,0 +1,44 @@
+.CartItem {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #eaeaea;
+  width: 70%;
+  margin: auto;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.CartItem img {
+  width: 20%;
+  height: 100%;
+  margin-right: 20px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.ProductDetails {
+  overflow: auto;
+  display: inline-block;
+  width: 50%;
+  margin-right: 20px;
+}
+
+.ProductDetails h3 {
+  text-transform: capitalize;
+  font-size: 18px;
+}
+
+.ProductDetails p {
+  font-size: 14px;
+}
+
+.Actions {
+  overflow: auto;
+  display: inline-block;
+  width: 20%;
+}
+
+.Actions button {
+  width: 100%;
+  margin: 10px 0;
+}

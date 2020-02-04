@@ -2,10 +2,13 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   font-family: 'Roboto', sans-serif;
   padding-bottom: 30px;
+  background-color: #fff;
 }
 
 .Product img {
   width: 100%;
+  height: 191px;
+  object-fit: contain;
 }
 
 .ProductDetails {
@@ -13,50 +16,41 @@
 }
 
 .ProductCategory {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
+  display: inline-block;
+  font-size: 10px;
   text-transform: uppercase;
-  color: #ccc;
-  margin-bottom: 18px;
+  color: #fff;
+  background-color: #ff9800;
+  padding: 5px;
 }
 
 .ProductDetails h4 {
   font-weight: 500;
   display: block;
-  margin-bottom: 18px;
-  text-transform: uppercase;
+  margin-bottom: 16px;
+  text-transform: capitalize;
   color: #363636;
   transition: 0.3s;
 }
 
 .ProductDetails p {
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 13px;
+  line-height: 18px;
   margin-bottom: 18px;
   color: #999;
 }
 
-.ProductBottomDetails {
-  border-top: 1px solid #eee;
-  padding-top: 30px;
-}
-
 .ProductPrice {
-  float: left;
-  padding: 6px 12px;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 14px;
 }
 
 .ProductPrice span {
   color: #999;
 }
 
-.ProductLink {
-  float: right;
-}
-
-.ProductLink button:hover {
-  background-color: #495057;
+.ProductPrice span:nth-child(1) {
+  background-color: #6675df;
+  color: #fff;
+  padding: 5px;
+  margin-right: 5px;
 }

@@ -6,7 +6,8 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 import Layout from './hoc/Layout/Layout';
 import NotFound from './components/pages/NotFound/NotFound';
-import Home from './containers/Home/Home';
+import Home from './containers/Pages/Home/Home';
+import Products from './containers/Pages/Products/Products';
 import Signup from './containers/Auth/Signup/Signup';
 import Login from './containers/Auth/Login/Login';
 import ActivateUser from './containers/Auth/ActivateUser/ActivateUser';
@@ -21,7 +22,11 @@ import CreateProduct from './containers/Admin/Resources/Product/Create/Create';
 import EditBrand from './containers/Admin/Resources/Brand/Edit/Edit';
 import EditProduct from './containers/Admin/Resources/Product/Edit/Edit';
 import EditCategory from './containers/Admin/Resources/Category/Edit/Edit';
-import ViewProduct from './containers/Admin/Resources/Product/View/View';
+import AdminViewProduct from './containers/Admin/Resources/Product/View/View';
+import ViewProduct from './containers/Pages/Products/Product/Product';
+import ViewCart from './containers/Cart/Cart';
+import ForgotPassword from './containers/Auth/ForgotPassword/ForgotPassword';
+import ResetPassword from './containers/Auth/ForgotPassword/ResetPassword/ResetPassword';
 
 dotenv.config();
 
@@ -33,9 +38,13 @@ export class App extends Component {
     let routes = (
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/products" component={Products} />
+        <Route path="/products/:productId" component={ViewProduct} />
         <Route path="/register" component={Signup} />
         <Route path="/activate-user/:token" component={ActivateUser} />
         <Route path="/login" component={Login} />
+        <Route path="/forgot-password" component={ForgotPassword} />
+        <Route path="/reset-password/:token" component={ResetPassword} />
         <Route path="*" component={NotFound} />
       </Switch>
     );
@@ -44,10 +53,12 @@ export class App extends Component {
       routes = (
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/products" component={Products} />
+          <Route path="/products/:productId" component={ViewProduct} />
           <Route path="/register" component={Signup} />
-          <Route path="/activate-user/:token" component={ActivateUser} />
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
+          <Route exact path="/cart" component={ViewCart} />
           <Route path="*" component={NotFound} />
         </Switch>
       );
@@ -57,10 +68,12 @@ export class App extends Component {
       routes = (
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/products" component={Products} />
+          <Route path="/products/:productId" component={ViewProduct} />
           <Route path="/register" component={Signup} />
-          <Route path="/activate-user/:token" component={ActivateUser} />
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
+          <Route exact path="/cart" component={ViewCart} />
           <Route path="/admin/dashboard" component={Dashboard} />
 
           <Route exact path="/admin/brands" component={Brand} />
@@ -83,7 +96,7 @@ export class App extends Component {
           <Route
             exact
             path="/admin/products/:productId"
-            component={ViewProduct}
+            component={AdminViewProduct}
           />
           <Route
             exact

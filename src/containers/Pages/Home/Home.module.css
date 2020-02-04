@@ -1,5 +1,5 @@
 .Main {
-  background-image: url('../../assets/img/undraw_successful_purchase_uyin.svg');
+  background-image: url('../../../assets/img/undraw_successful_purchase_uyin.svg');
   background-repeat: no-repeat;
   background-size: contain;
   height: 70vh;
@@ -64,9 +64,18 @@
 
 .Row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 40px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
   margin-top: 20px;
+}
+
+.Row a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.Row a:hover div {
+  background-color: #e3e7ff;
 }
 
 @media screen and (max-width: 1200px) {

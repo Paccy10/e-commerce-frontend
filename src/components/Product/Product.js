@@ -1,35 +1,33 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import classes from './Product.module.css';
-import Button from '../UI/Button/Button';
 
-const Product = () => {
+const Product = props => {
   return (
     <div className={classes.Product}>
-      <img
-        src="https://res.cloudinary.com/dhsoe7agl/image/upload/v1574431161/samples/ecommerce/leather-bag-gray.jpg"
-        alt="Denim Jeans"
-      />
+      <img src={props.mainImage} alt="Product" />
       <div className={classes.ProductDetails}>
-        <span className={classes.ProductCategory}>Man,bag</span>
-        <h4>Man leather bag</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero,
-          possimus nostrum! Lorem ipsum dolor sit amet, consectetur adipisicing
-          elit. Vero, possimus nostrum!
-        </p>
+        <span className={classes.ProductCategory}>{props.category}</span>
+        <h4>{props.name}</h4>
+        <p>{props.description}</p>
         <div className={classes.ProductBottomDetails}>
           <div className={classes.ProductPrice}>
-            Price: <span>$230.99</span>
-          </div>
-          <div className={classes.ProductLink}>
-            <Button btnType="Primary" onClick={() => {}}>
-              Add to Cart
-            </Button>
+            <span>Price </span>
+            <span>Rwf {props.price}</span>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+Product.propTypes = {
+  mainImage: PropTypes.string,
+  category: PropTypes.array,
+  name: PropTypes.string,
+  description: PropTypes.string,
+  price: PropTypes.string
 };
 
 export default Product;
