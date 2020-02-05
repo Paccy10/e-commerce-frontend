@@ -4,35 +4,101 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import AsyncComponent from './hoc/AsyncComponent/AsyncComponent';
 import Layout from './hoc/Layout/Layout';
-import NotFound from './components/pages/NotFound/NotFound';
-import Home from './containers/Pages/Home/Home';
-import Products from './containers/Pages/Products/Products';
-import Signup from './containers/Auth/Signup/Signup';
-import Login from './containers/Auth/Login/Login';
-import ActivateUser from './containers/Auth/ActivateUser/ActivateUser';
-import Logout from './containers/Auth/Logout/Logout';
-import Dashboard from './containers/Admin/Dashboard/Dashboard';
-import Brand from './containers/Admin/Resources/Brand/Index/Index';
-import Category from './containers/Admin/Resources/Category/Index/Index';
-import Product from './containers/Admin/Resources/Product/Index/Index';
-import CreateBrand from './containers/Admin/Resources/Brand/Create/Create';
-import CreateCategory from './containers/Admin/Resources/Category/Create/Create';
-import CreateProduct from './containers/Admin/Resources/Product/Create/Create';
-import EditBrand from './containers/Admin/Resources/Brand/Edit/Edit';
-import EditProduct from './containers/Admin/Resources/Product/Edit/Edit';
-import EditCategory from './containers/Admin/Resources/Category/Edit/Edit';
-import AdminViewProduct from './containers/Admin/Resources/Product/View/View';
-import ViewProduct from './containers/Pages/Products/Product/Product';
-import ViewCart from './containers/Cart/Cart';
-import ForgotPassword from './containers/Auth/ForgotPassword/ForgotPassword';
-import ResetPassword from './containers/Auth/ForgotPassword/ResetPassword/ResetPassword';
 
 dotenv.config();
 
 const REACT_APP_BACKEND_URL = 'http://localhost:5000/api/v1';
 axios.defaults.baseURL = REACT_APP_BACKEND_URL;
 
+const NotFound = AsyncComponent(() => {
+  return import('./components/pages/NotFound/NotFound');
+});
+
+const Home = AsyncComponent(() => {
+  return import('./containers/Pages/Home/Home');
+});
+
+const Products = AsyncComponent(() => {
+  return import('./containers/Pages/Products/Products');
+});
+
+const Signup = AsyncComponent(() => {
+  return import('./containers/Auth/Signup/Signup');
+});
+
+const Login = AsyncComponent(() => {
+  return import('./containers/Auth/Login/Login');
+});
+
+const ActivateUser = AsyncComponent(() => {
+  return import('./containers/Auth/ActivateUser/ActivateUser');
+});
+
+const Logout = AsyncComponent(() => {
+  return import('./containers/Auth/Logout/Logout');
+});
+
+const Dashboard = AsyncComponent(() => {
+  return import('./containers/Admin/Dashboard/Dashboard');
+});
+
+const Brand = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Brand/Index/Index');
+});
+
+const Category = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Category/Index/Index');
+});
+
+const Product = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Product/Index/Index');
+});
+
+const CreateBrand = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Brand/Create/Create');
+});
+
+const CreateCategory = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Category/Create/Create');
+});
+
+const CreateProduct = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Product/Create/Create');
+});
+
+const EditBrand = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Brand/Edit/Edit');
+});
+
+const EditCategory = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Category/Edit/Edit');
+});
+
+const EditProduct = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Product/Edit/Edit');
+});
+
+const AdminViewProduct = AsyncComponent(() => {
+  return import('./containers/Admin/Resources/Product/View/View');
+});
+
+const ViewProduct = AsyncComponent(() => {
+  return import('./containers/Pages/Products/Product/Product');
+});
+
+const ViewCart = AsyncComponent(() => {
+  return import('./containers/Cart/Cart');
+});
+
+const ForgotPassword = AsyncComponent(() => {
+  return import('./containers/Auth/ForgotPassword/ForgotPassword');
+});
+
+const ResetPassword = AsyncComponent(() => {
+  return import('./containers/Auth/ForgotPassword/ResetPassword/ResetPassword');
+});
 export class App extends Component {
   render() {
     let routes = (
